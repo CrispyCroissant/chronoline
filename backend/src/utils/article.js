@@ -19,20 +19,16 @@ const propCodes = [
 async function getCards(amount) {
   return new Promise((resolve) => {
     let articles = [];
-    let workers = [];
 
     for (let i = 0; i < amount; i++) {
       const worker = new Worker("./src/utils/worker.js");
-      workers.push(worker);
 
-      worker.on("message", (article) => {
+      worker.on("message", async (article) => {
+        worker.terminate();
+
         articles.push(article);
 
         if (articles.length === amount) {
-          for (let i = 0; i < workers.length; i++) {
-            const worker = workers[i];
-            worker.terminate();
-          }
           resolve(articles);
         }
       });
