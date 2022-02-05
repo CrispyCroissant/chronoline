@@ -16,8 +16,7 @@ const propCodes = [
   { code: "P8556", desc: "extinct" },
 ];
 
-// * Retrieve multiple pages at once
-async function getArticleInfo(amount) {
+async function getCards(amount) {
   return new Promise((resolve) => {
     let articles = [];
     let workers = [];
@@ -106,4 +105,4 @@ async function getArticleDates(articles) {
   }
 }
 
-module.exports = { getArticleInfo, getArticleDates };
+module.exports = { getCards, getArticleDates };

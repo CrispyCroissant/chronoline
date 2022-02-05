@@ -9,7 +9,7 @@ var debug = require("debug")("backend:server");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
-const { getArticleInfo, getCards } = require("../utils/article");
+const { getCards } = require("../utils/article");
 
 /**
  * Get port from environment and store in Express.
@@ -34,7 +34,7 @@ io.on("connection", async (socket) => {
   // TODO: Remove any debug when feature is mature.
   debug(`User has joined: ${socket.id}`);
 
-  const cards = await getArticleInfo(15);
+  const cards = await getCards(15);
 
   for (let i = 0; i < cards.length; i++) {
     const card = cards[i];
