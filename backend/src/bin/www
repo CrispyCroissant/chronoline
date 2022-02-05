@@ -9,6 +9,8 @@ var debug = require("debug")("backend:server");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
+const { getArticleInfo, getCards } = require("../utils/article");
+
 /**
  * Get port from environment and store in Express.
  */
@@ -28,8 +30,20 @@ const io = new Server(httpServer);
 httpServer.listen(port);
 httpServer.on("error", onError);
 httpServer.on("listening", onListening);
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
+  // TODO: Remove any debug when feature is mature.
   debug(`User has joined: ${socket.id}`);
+
+  const cards = await getArticleInfo(15);
+
+  for (let i = 0; i < cards.length; i++) {
+    const card = cards[i];
+    debug(
+      `Card ${i + 1}: ${card.title}\n${card.desc}\nQuestion - ${
+        card.timeType
+      }\n`
+    );
+  }
 });
 
 /**
