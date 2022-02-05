@@ -18,10 +18,13 @@ const propCodes = [
 
 async function getCards(amount) {
   return new Promise((resolve) => {
+    const maxWorkers = amount * 3 > 50 ? 50 : amount * 3;
     let articles = [];
+    let workers = [];
 
-    for (let i = 0; i < amount; i++) {
+    for (let i = 0; i < maxWorkers; i++) {
       const worker = new Worker("./src/utils/worker.js");
+      workers.push(worker);
 
       worker.on("message", async (article) => {
         worker.terminate();
@@ -29,6 +32,9 @@ async function getCards(amount) {
         articles.push(article);
 
         if (articles.length === amount) {
+          workers.forEach((worker) => {
+            worker.terminate();
+          });
           resolve(articles);
         }
       });
