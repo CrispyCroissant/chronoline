@@ -21,6 +21,9 @@ axios
       wbeuaspect: "T",
       inprop: "url",
     },
+    headers: {
+      "Accept-Encoding": "gzip",
+    },
   })
   .then(async (res) => {
     const data = res.data.query.pages;

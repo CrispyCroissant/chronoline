@@ -61,6 +61,9 @@ async function getArticleDates(articles) {
         languages: "en",
         props: "claims",
       },
+      headers: {
+        "Accept-Encoding": "gzip",
+      },
     });
 
     let data = res.data;
