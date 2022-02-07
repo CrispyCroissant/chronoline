@@ -104,3 +104,8 @@ describe("getArticleDates()", () => {
     expect(article.timeType).toBe("born");
   });
 });
+
+/*
+ * getCards() is hard to test as Jest does not support worker_threads
+ * See: https://github.com/facebook/jest/issues/9467#issuecomment-578712638
+ */
