@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <v-main>
-      <router-view />
+      <v-scale-transition mode="out-in">
+        <router-view />
+      </v-scale-transition>
     </v-main>
   </v-app>
 </template>
