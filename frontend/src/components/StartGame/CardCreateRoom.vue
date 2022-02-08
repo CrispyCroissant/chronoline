@@ -11,7 +11,12 @@
         <h2 class="text-md-h4 text-h5 mb-15">Create a room</h2>
         <v-row class="d-flex flex-column">
           <h3 class="text-body-1 mb-3">Enter your nickname</h3>
-          <v-text-field outlined autofocus></v-text-field>
+          <v-text-field
+            outlined
+            autofocus
+            v-model="nickname"
+            ref="nameInput"
+          ></v-text-field>
         </v-row>
         <v-row class="d-flex flex-column mb-15" align="center">
           <v-col class="d-flex justify-left px-0">
@@ -34,6 +39,16 @@
 <script>
 export default {
   name: "CardCreateRoom",
+  computed: {
+    nickname: {
+      get() {
+        return this.$store.state.nickname;
+      },
+      set(nickname) {
+        this.$store.commit("setNickname", nickname);
+      },
+    },
+  },
 };
 </script>
 
