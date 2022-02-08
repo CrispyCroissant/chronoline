@@ -1,5 +1,5 @@
 <template>
-  <v-row class="d-flex flex-column">
+  <v-row class="d-flex flex-column" @keydown.enter.prevent="goToRoom">
     <v-row justify="center" class="d-flex flex-column my-5">
       <h1 class="text-md-h1 text-h2 text-center onyx--text">Chronoline</h1>
       <h3 class="text-subtitle text-center my-5 mx-md-0 mx-10 onyx--text">
@@ -35,7 +35,7 @@
           <v-btn
             x-large
             color="primary"
-            @click.native="goToRoom"
+            @click.native.prevent="goToRoom"
             ref="createRoomBtn"
           >
             Create room
@@ -57,7 +57,8 @@ export default {
   methods: {
     goToRoom() {
       if (this.formValid) {
-        this.$router.push({ name: "PlayGame" });
+        const roomId = Math.random().toString(36).slice(8);
+        this.$router.push({ name: "PlayGame", params: { id: roomId } });
       }
     },
     required(value) {
