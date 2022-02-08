@@ -11,12 +11,15 @@
         <h2 class="text-md-h4 text-h5 mb-15">Create a room</h2>
         <v-row class="d-flex flex-column">
           <h3 class="text-body-1 mb-3">Enter your nickname</h3>
-          <v-text-field
-            outlined
-            autofocus
-            v-model="nickname"
-            ref="nameInput"
-          ></v-text-field>
+          <v-form>
+            <v-text-field
+              outlined
+              autofocus
+              v-model="nickname"
+              ref="nameInput"
+              :rules="[required]"
+            ></v-text-field>
+          </v-form>
         </v-row>
         <v-row class="d-flex flex-column mb-15" align="center">
           <v-col class="d-flex justify-left px-0">
@@ -29,7 +32,14 @@
           </v-btn-toggle>
         </v-row>
         <v-row justify="center" class="mt-16">
-          <v-btn de x-large color="primary">Create room</v-btn>
+          <v-btn
+            x-large
+            color="primary"
+            @click.native="goToRoom"
+            ref="createRoomBtn"
+          >
+            Create room
+          </v-btn>
         </v-row>
       </v-sheet>
     </v-row>
@@ -39,6 +49,26 @@
 <script>
 export default {
   name: "CardCreateRoom",
+  data() {
+    return {
+      formValid: false,
+    };
+  },
+  methods: {
+    goToRoom() {
+      if (this.formValid) {
+        this.$router.push({ name: "PlayGame" });
+      }
+    },
+    required(value) {
+      if (value) {
+        this.formValid = true;
+        return !!value;
+      } else {
+        return "You need to provide a nickname.";
+      }
+    },
+  },
   computed: {
     nickname: {
       get() {
