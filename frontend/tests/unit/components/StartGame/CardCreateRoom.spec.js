@@ -1,17 +1,15 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuetify from "vuetify";
-//import VueRouter from "vue-router";
 import Vuex from "vuex";
 import CardCreateRoom from "@/components/StartGame/CardCreateRoom.vue";
 
 describe("The start game page", () => {
   const localVue = createLocalVue();
-  let vuetify, store;
   localVue.use(Vuex);
+  let vuetify, store;
 
   beforeEach(() => {
     vuetify = new Vuetify();
-    //router = new VueRouter();
     store = new Vuex.Store({
       state: {},
       mutations: {},
@@ -25,5 +23,55 @@ describe("The start game page", () => {
       store,
     });
     expect(wrapper.exists()).toBe(true);
+  });
+
+  it("redirects to playing page on room creation click", async () => {
+    const wrapper = shallowMount(CardCreateRoom, {
+      localVue,
+      vuetify,
+      store,
+      data() {
+        return {
+          formValid: true,
+        };
+      },
+    });
+
+    const spy = jest.spyOn(wrapper.vm, "goToRoom").mockReturnValueOnce();
+
+    await wrapper.findComponent({ ref: "createRoomBtn" }).trigger("click");
+
+    expect(spy).toBeCalledTimes(1);
+  });
+
+  it("does not redirects to playing page if no nickname was provided", async () => {
+    const wrapper = shallowMount(CardCreateRoom, {
+      localVue,
+      vuetify,
+      store,
+      mocks: {
+        $router: {
+          push: jest.fn(),
+        },
+      },
+    });
+
+    const spy = jest.spyOn(wrapper.vm.$router, "push");
+
+    await wrapper.findComponent({ ref: "createRoomBtn" }).trigger("click");
+
+    expect(spy).toBeCalledTimes(0);
+  });
+
+  it("returns error in text field if no nickname was provided", async () => {
+    const wrapper = shallowMount(CardCreateRoom, {
+      localVue,
+      vuetify,
+      store,
+    });
+
+    const returnedVal = wrapper.vm.required();
+
+    expect(typeof returnedVal).toBe("string");
   });
 });
