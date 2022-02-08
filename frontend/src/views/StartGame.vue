@@ -1,11 +1,9 @@
 <template>
-  <h1>{{ msg }}</h1>
+  <h1>Placeholder</h1>
 </template>
 
 <script>
-export default {
-  props: ["msg"],
-};
+export default {};
 </script>
 
 <style></style>
