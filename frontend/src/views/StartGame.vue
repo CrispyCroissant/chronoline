@@ -1,9 +1,15 @@
 <template>
-  <h1>Placeholder</h1>
+  <v-container fluid fill-height>
+    <CardCreateRoom />
+  </v-container>
 </template>
 
 <script>
-export default {};
+import CardCreateRoom from "../components/StartGame/CardCreateRoom.vue";
+export default {
+  components: { CardCreateRoom },
+  name: "StartGame",
+};
 </script>
 
 <style></style>
