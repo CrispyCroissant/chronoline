@@ -5,12 +5,16 @@
         <router-view />
       </v-scale-transition>
     </v-main>
+    <TheFooter v-if="this.$route.meta.hasFooter" />
   </v-app>
 </template>
 
 <script>
+import TheFooter from "./components/nav/TheFooter.vue";
+
 export default {
   name: "App",
+  components: { TheFooter },
 };
 </script>
 
