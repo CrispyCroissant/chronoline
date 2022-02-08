@@ -10,11 +10,13 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    meta: { hasFooter: true },
   },
   {
     path: "/start",
     name: "StartGame",
     component: StartGame,
+    meta: { hasFooter: true },
   },
 ];
 
