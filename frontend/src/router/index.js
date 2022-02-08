@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import StartGame from "../views/StartGame.vue";
+import PlayGame from "../views/PlayGame.vue";
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,12 @@ const routes = [
     name: "StartGame",
     component: StartGame,
     meta: { hasFooter: true },
+  },
+  {
+    path: "/play/:id?",
+    name: "PlayGame",
+    component: PlayGame,
+    meta: { hasFooter: false },
   },
 ];
 
