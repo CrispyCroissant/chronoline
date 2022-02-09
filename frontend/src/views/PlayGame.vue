@@ -4,17 +4,17 @@
       <TheScoreboard />
     </v-row>
     <v-row justify="center" align="end">
-      <PlayerCardSheet />
+      <ThePlayerCardSheet />
     </v-row>
   </v-container>
 </template>
 
 <script>
-import PlayerCardSheet from "../components/PlayGame/PlayerCardSheet.vue";
+import ThePlayerCardSheet from "../components/PlayGame/ThePlayerCardSheet.vue";
 import TheScoreboard from "../components/PlayGame/TheScoreboard.vue";
 
 export default {
-  components: { PlayerCardSheet, TheScoreboard },
+  components: { TheScoreboard, ThePlayerCardSheet },
   name: "PlayGame",
 };
 </script>

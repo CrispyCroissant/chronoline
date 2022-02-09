@@ -5,7 +5,7 @@
     </v-row>
     <v-row justify="end">
       <v-col cols="2">
-        <MenuPlayers />
+        <ThePlayersMenu />
       </v-col>
       <v-spacer></v-spacer>
       <v-col cols="2">
@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import MenuPlayers from "./MenuPlayers.vue";
+import ThePlayersMenu from "./ThePlayersMenu.vue";
 import PlayerCard from "./PlayingCard.vue";
 
 export default {
-  components: { PlayerCard, MenuPlayers },
-  name: "PlayerCardSheet",
+  components: { PlayerCard, ThePlayersMenu },
+  name: "ThePlayerCardSheet",
 };
 </script>
 

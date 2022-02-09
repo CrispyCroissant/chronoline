@@ -10,7 +10,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "ThePlayersMenu"
+};
 </script>
 
 <style></style>

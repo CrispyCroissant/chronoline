@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuetify from "vuetify";
-import MenuPlayers from "@/components/PlayGame/MenuPlayers.vue";
+import ThePlayersMenu from "@/components/PlayGame/ThePlayersMenu.vue";
 
 describe("The player menu bar", () => {
   const localVue = createLocalVue();
@@ -11,7 +11,7 @@ describe("The player menu bar", () => {
   });
 
   it("exists", () => {
-    const wrapper = shallowMount(MenuPlayers, {
+    const wrapper = shallowMount(ThePlayersMenu, {
       localVue,
       vuetify,
     });

@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuetify from "vuetify";
-import PlayerCardSheet from "@/components/PlayGame/PlayerCardSheet.vue";
+import ThePlayerCardSheet from "@/components/PlayGame/ThePlayerCardSheet.vue";
 
 describe("The player card sheet", () => {
   const localVue = createLocalVue();
@@ -11,7 +11,7 @@ describe("The player card sheet", () => {
   });
 
   it("exists", () => {
-    const wrapper = shallowMount(PlayerCardSheet, {
+    const wrapper = shallowMount(ThePlayerCardSheet, {
       localVue,
       vuetify,
     });
