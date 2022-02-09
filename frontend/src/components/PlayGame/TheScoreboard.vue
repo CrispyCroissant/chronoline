@@ -1,7 +1,7 @@
 <template>
   <v-sheet color="transparent" class="mr-5 mt-5">
     <v-row justify="center" class="mb-1">
-      <v-btn icon x-large @click="show = !show">
+      <v-btn icon x-large @click.native="show = !show" ref="showBtn">
         <v-icon color="secondary">
           {{ show ? "mdi-eye-off" : "mdi-eye" }}
         </v-icon>
@@ -18,7 +18,7 @@
             <p class="text-overline text-center pa-0">Cards</p>
           </v-col>
         </v-row>
-        <v-list color="transparent" dense>
+        <v-list ref="playerList" color="transparent" dense>
           <v-list-item>
             <v-list-item-title class="text-body-2">
               CrazyFrogLover
