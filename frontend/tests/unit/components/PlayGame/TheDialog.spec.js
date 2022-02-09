@@ -97,7 +97,9 @@ describe("The dialog", () => {
       router,
     });
 
-    const spy = jest.spyOn(wrapper.vm, "copyToClipBoard");
+    const spy = jest
+      .spyOn(wrapper.vm, "copyToClipBoard")
+      .mockImplementationOnce(() => jest.fn());
 
     await wrapper.findComponent({ ref: "invitationLink" }).trigger("click");
 
@@ -110,6 +112,10 @@ describe("The dialog", () => {
       vuetify,
       router,
     });
+
+    jest
+      .spyOn(wrapper.vm, "copyToClipBoard")
+      .mockImplementationOnce(() => jest.fn());
 
     await wrapper.findComponent({ ref: "invitationLink" }).trigger("click");
 
