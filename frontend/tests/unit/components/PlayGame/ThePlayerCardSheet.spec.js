@@ -17,4 +17,33 @@ describe("The player card sheet", () => {
     });
     expect(wrapper.exists()).toBe(true);
   });
+
+  it("minimizes the sheet on button blick", async () => {
+    const wrapper = shallowMount(ThePlayerCardSheet, {
+      localVue,
+      vuetify,
+    });
+
+    await wrapper.findComponent({ ref: "sizeBtn" }).trigger("click");
+    const sheetContent = wrapper.findComponent({ ref: "sheetContent" });
+
+    expect(sheetContent.isVisible()).toBe(false);
+  });
+
+  it("maximizes the sheet on button blick if minimized", async () => {
+    const wrapper = shallowMount(ThePlayerCardSheet, {
+      localVue,
+      vuetify,
+      data() {
+        return {
+          minimized: true,
+        };
+      },
+    });
+
+    await wrapper.findComponent({ ref: "sizeBtn" }).trigger("click");
+    const sheetContent = wrapper.findComponent({ ref: "sheetContent" });
+
+    expect(sheetContent.isVisible()).toBe(true);
+  });
 });
