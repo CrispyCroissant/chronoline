@@ -1,7 +1,7 @@
 <template>
-  <v-sheet class="pa-10" min-width="50rem" elevation="5">
+  <v-sheet class="pa-10" min-width="50rem" max-width="100%" elevation="5">
     <v-row justify="center" class="mb-10">
-      <h2 class="text-h2 font-weight-bold onyx--text">Your cards</h2>
+      <h2 class="text-h3 font-weight-bold onyx--text">Your cards</h2>
     </v-row>
     <v-row justify="end">
       <v-col cols="2">
