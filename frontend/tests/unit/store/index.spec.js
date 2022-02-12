@@ -1,4 +1,4 @@
-import { state, mutations, getters } from "../../../src/store";
+import { state, mutations, getters, actions } from "../../../src/store";
 
 describe("The store", () => {
   it("has a nickname state", () => {
@@ -75,6 +75,29 @@ describe("The mutations", () => {
       mutations.setCurrentTurn(state, "TestPlayer");
 
       expect(state.currentPlayerTurn).toEqual("TestPlayer");
+    });
+  });
+});
+
+describe("The actions", () => {
+  describe("initStore", () => {
+    it("initializes the store with the given data", () => {
+      const table = ["Card1", "Card2"];
+      const deck = ["Card3", "Card4"];
+      const players = ["Player1", "Player2"];
+      const currentTurn = "Player1";
+
+      const data = { table, deck, players, currentTurn };
+
+      const commit = (mutationName, payload) => {
+        mutations[mutationName](state, payload);
+      };
+      actions.initStore({ commit }, data);
+
+      expect(state.cardsOnTable).toEqual(table);
+      expect(state.cardDeck).toEqual(deck);
+      expect(state.players).toEqual(players);
+      expect(state.currentPlayerTurn).toBe(currentTurn);
     });
   });
 });

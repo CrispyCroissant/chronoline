@@ -40,7 +40,14 @@ export const mutations = {
     state.currentPlayerTurn = player;
   },
 };
-export const actions = {};
+export const actions = {
+  initStore({ commit }, data) {
+    commit("setCardDeck", data.deck);
+    commit("setCardsOnTable", data.table);
+    commit("setPlayers", data.players);
+    commit("setCurrentTurn", data.currentTurn);
+  },
+};
 export const getters = {
   playerLeaderboard(state) {
     return state.players.sort((a, b) => {
