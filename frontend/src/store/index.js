@@ -54,6 +54,12 @@ export const getters = {
       return a.cardAmount - b.cardAmount;
     });
   },
+  playersCards(state, name) {
+    const player = state.players.find((player) => {
+      return player.nickname === name;
+    });
+    return player.cards;
+  },
 };
 
 export default new Vuex.Store({

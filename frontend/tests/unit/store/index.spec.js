@@ -118,4 +118,19 @@ describe("The getters", () => {
       ]);
     });
   });
+
+  describe("playersCards", () => {
+    it("can return a certain player's cards", () => {
+      const mockedState = {
+        players: [
+          { nickname: "RealPlayer", cards: [] },
+          { nickname: "TestPlayer", cards: ["TestCard"] },
+        ],
+      };
+
+      const result = getters.playersCards(mockedState, "TestPlayer");
+
+      expect(result).toEqual(["TestCard"]);
+    });
+  });
 });
