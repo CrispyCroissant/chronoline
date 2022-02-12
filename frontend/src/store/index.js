@@ -37,10 +37,18 @@ export const mutations = {
   },
 };
 export const actions = {};
+export const getters = {
+  playerLeaderboard(state) {
+    return state.players.sort((a, b) => {
+      return a.cardAmount - b.cardAmount;
+    });
+  },
+};
 
 export default new Vuex.Store({
   state,
   mutations,
   actions,
+  getters,
   modules: {},
 });

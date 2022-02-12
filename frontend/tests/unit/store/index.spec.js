@@ -1,4 +1,4 @@
-import { state, mutations } from "../../../src/store";
+import { state, mutations, getters } from "../../../src/store";
 
 describe("The store", () => {
   it("has a nickname state", () => {
@@ -56,5 +56,21 @@ describe("The mutations", () => {
 
     expect(state.players).toEqual(payload);
     expect(state.players[0].cardAmount()).toEqual(1);
+  });
+});
+
+describe("The getters", () => {
+  it("can sort the players by least amount of cards", () => {
+    const mockedState = {
+      players: [{ cardAmount: 3 }, { cardAmount: 6 }, { cardAmount: 2 }],
+    };
+
+    const result = getters.playerLeaderboard(mockedState);
+
+    expect(result).toEqual([
+      { cardAmount: 2 },
+      { cardAmount: 3 },
+      { cardAmount: 6 },
+    ]);
   });
 });
