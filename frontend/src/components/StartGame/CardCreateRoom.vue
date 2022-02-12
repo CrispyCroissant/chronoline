@@ -8,6 +8,23 @@
     </v-row>
     <v-row justify="center">
       <v-sheet elevation="4" class="pa-15 mb-15 mx-10" rounded="lg">
+        <v-expand-transition>
+          <div v-if="loading">
+            <v-progress-linear
+              class="mb-5"
+              color="secondary"
+              indeterminate
+            ></v-progress-linear>
+          </div>
+        </v-expand-transition>
+        <v-alert
+          v-if="$socket.disconnected"
+          ref="alert"
+          type="error"
+          class="mb-10"
+        >
+          Couldn't connect to Chronoline servers. Try again later.
+        </v-alert>
         <h2 class="text-md-h4 text-h5 mb-15">Create a room</h2>
         <v-row class="d-flex flex-column">
           <h3 class="text-body-1 mb-3">Enter your nickname</h3>
@@ -18,6 +35,7 @@
               v-model="nickname"
               ref="nameInput"
               :rules="[required]"
+              :disabled="$socket.disconnected"
             ></v-text-field>
           </v-form>
         </v-row>
@@ -26,9 +44,9 @@
             <h3 class="text-body-1 mb-3">Best of?</h3>
           </v-col>
           <v-btn-toggle mandatory>
-            <v-btn color="accent">One</v-btn>
-            <v-btn color="accent">Two</v-btn>
-            <v-btn color="accent">Three</v-btn>
+            <v-btn :disabled="$socket.disconnected" color="accent">One</v-btn>
+            <v-btn :disabled="$socket.disconnected" color="accent">Two</v-btn>
+            <v-btn :disabled="$socket.disconnected" color="accent">Three</v-btn>
           </v-btn-toggle>
         </v-row>
         <v-row justify="center" class="mt-16">
@@ -37,6 +55,7 @@
             color="primary"
             @click.native.prevent="goToRoom"
             ref="createRoomBtn"
+            :disabled="$socket.disconnected"
           >
             Create room
           </v-btn>
@@ -52,14 +71,26 @@ export default {
   data() {
     return {
       formValid: false,
+      error: false,
+      loading: false,
     };
   },
   methods: {
     goToRoom() {
-      if (this.formValid) {
+      this.loading = true;
+
+      if (this.formValid && this.$socket.connected) {
         const roomId = Math.random().toString(36).slice(8);
+
+        this.$socket.client.emit("createRoom", {
+          id: roomId,
+          nickname: this.nickname,
+        });
+
         this.$router.push({ name: "PlayGame", params: { id: roomId } });
       }
+
+      this.loading = false;
     },
     required(value) {
       if (value) {
