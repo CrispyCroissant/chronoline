@@ -19,58 +19,68 @@ describe("The store", () => {
 });
 
 describe("The mutations", () => {
-  it("can set the nickname state", () => {
-    mutations.setNickname(state, "test");
+  describe("setNickname", () => {
+    it("can set the nickname state", () => {
+      mutations.setNickname(state, "test");
 
-    expect(state.nickname).toBe("test");
+      expect(state.nickname).toBe("test");
+    });
   });
 
-  it("can set the card deck", () => {
-    const payload = [{ title: "test", desc: "test" }];
+  describe("setCardDeck", () => {
+    it("can set the card deck", () => {
+      const payload = [{ title: "test", desc: "test" }];
 
-    mutations.setCardDeck(state, payload);
+      mutations.setCardDeck(state, payload);
 
-    expect(state.cardDeck).toEqual(payload);
+      expect(state.cardDeck).toEqual(payload);
+    });
   });
 
-  it("can set the cards on the table", () => {
-    const payload = [{ title: "test", desc: "test" }];
+  describe("setCardsOnTable", () => {
+    it("can set the cards on the table", () => {
+      const payload = [{ title: "test", desc: "test" }];
 
-    mutations.setCardsOnTable(state, payload);
+      mutations.setCardsOnTable(state, payload);
 
-    expect(state.cardsOnTable).toEqual(payload);
+      expect(state.cardsOnTable).toEqual(payload);
+    });
   });
 
-  it("can set the players array", () => {
-    const payload = [
-      {
-        nickname: "User",
-        cards: [{ title: "test", desc: "test" }],
-        cardAmount() {
-          return this.cards.length;
+  describe("setPlayers", () => {
+    it("can set the players array", () => {
+      const payload = [
+        {
+          nickname: "User",
+          cards: [{ title: "test", desc: "test" }],
+          cardAmount() {
+            return this.cards.length;
+          },
         },
-      },
-    ];
+      ];
 
-    mutations.setPlayers(state, payload);
+      mutations.setPlayers(state, payload);
 
-    expect(state.players).toEqual(payload);
-    expect(state.players[0].cardAmount()).toEqual(1);
+      expect(state.players).toEqual(payload);
+      expect(state.players[0].cardAmount()).toEqual(1);
+    });
   });
 });
 
 describe("The getters", () => {
-  it("can sort the players by least amount of cards", () => {
-    const mockedState = {
-      players: [{ cardAmount: 3 }, { cardAmount: 6 }, { cardAmount: 2 }],
-    };
+  describe("playerLeaderboard", () => {
+    it("can sort the players by least amount of cards", () => {
+      const mockedState = {
+        players: [{ cardAmount: 3 }, { cardAmount: 6 }, { cardAmount: 2 }],
+      };
 
-    const result = getters.playerLeaderboard(mockedState);
+      const result = getters.playerLeaderboard(mockedState);
 
-    expect(result).toEqual([
-      { cardAmount: 2 },
-      { cardAmount: 3 },
-      { cardAmount: 6 },
-    ]);
+      expect(result).toEqual([
+        { cardAmount: 2 },
+        { cardAmount: 3 },
+        { cardAmount: 6 },
+      ]);
+    });
   });
 });
