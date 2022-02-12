@@ -16,6 +16,10 @@ describe("The store", () => {
   it("has a players state", () => {
     expect(state.players).toBeDefined();
   });
+
+  it("has a current player's turn state", () => {
+    expect(state.currentPlayerTurn).toBeDefined();
+  });
 });
 
 describe("The mutations", () => {
@@ -63,6 +67,14 @@ describe("The mutations", () => {
 
       expect(state.players).toEqual(payload);
       expect(state.players[0].cardAmount()).toEqual(1);
+    });
+  });
+
+  describe("setCurrentTurn", () => {
+    it("can set the current turn to be a specific player's", () => {
+      mutations.setCurrentTurn(state, "TestPlayer");
+
+      expect(state.currentPlayerTurn).toEqual("TestPlayer");
     });
   });
 });

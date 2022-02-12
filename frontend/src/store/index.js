@@ -21,6 +21,7 @@ export const state = {
   cardDeck: [],
   cardsOnTable: [],
   players: [],
+  currentPlayerTurn: "",
 };
 export const mutations = {
   setNickname(state, nickname) {
@@ -34,6 +35,9 @@ export const mutations = {
   },
   setPlayers(state, players) {
     state.players = players;
+  },
+  setCurrentTurn(state, player) {
+    state.currentPlayerTurn = player;
   },
 };
 export const actions = {};
