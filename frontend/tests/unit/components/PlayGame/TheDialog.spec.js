@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 import Vuex from "vuex";
 import TheDialog from "@/components/PlayGame/TheDialog.vue";
 
-describe("The dialog", () => {
+describe("The dialogs", () => {
   const localVue = createLocalVue();
   localVue.use(VueRouter);
   localVue.use(Vuex);
@@ -72,6 +72,75 @@ describe("The dialog", () => {
       await wrapper.setData({ loading: false });
 
       expect(loadDialog.exists()).toBe(false);
+    });
+
+    it("does NOT show loading animation if there's 2 players or more", async () => {
+      const wrapper = shallowMount(TheDialog, {
+        localVue,
+        vuetify,
+        router,
+        data() {
+          return {
+            loading: true,
+            showLoadingDialog: true,
+          };
+        },
+        store,
+      });
+
+      await wrapper.setData({ playerAmount: 2 });
+
+      const loadingAnim = wrapper.findComponent({ ref: "loadingAnim" });
+
+      expect(loadingAnim.exists()).toBe(false);
+    });
+
+    it("shows the play button ONLY when there's 2 players or more", async () => {
+      const wrapper = shallowMount(TheDialog, {
+        localVue,
+        vuetify,
+        router,
+        data() {
+          return {
+            loading: true,
+            showLoadingDialog: true,
+            playerAmount: 1,
+          };
+        },
+        store,
+      });
+
+      let btn = wrapper.findComponent({ ref: "startBtn" });
+
+      expect(btn.exists()).toBe(false);
+
+      await wrapper.setData({ playerAmount: 2 });
+
+      btn = wrapper.findComponent({ ref: "startBtn" });
+
+      expect(btn.exists()).toBe(true);
+    });
+
+    it("emits a startGame event to the server", async () => {
+      const wrapper = shallowMount(TheDialog, {
+        localVue,
+        vuetify,
+        router,
+        data() {
+          return {
+            loading: true,
+            showLoadingDialog: true,
+            playerAmount: 4,
+          };
+        },
+        store,
+      });
+
+      const spy = jest.spyOn(wrapper.vm, "startGame").mockResolvedValueOnce();
+
+      await wrapper.findComponent({ ref: "startBtn" }).trigger("click");
+
+      expect(spy).toBeCalledTimes(1);
     });
   });
 

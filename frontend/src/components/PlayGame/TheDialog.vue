@@ -68,20 +68,32 @@
           Waiting for players
         </v-card-title>
         <v-card-text
-          class="clickable mt-5 d-flex flex-column align-center justify-center"
-          @click="copyToClipBoard()"
+          class="mt-5 d-flex flex-column align-center justify-center"
         >
-          <div>
+          <div class="clickable" @click="copyToClipBoard()">
             <v-icon class="mr-1">mdi-link</v-icon>
             {{ currentURL }}
           </div>
           <v-progress-circular
+            v-if="playerAmount <= 1"
             indeterminate
             color="primary"
             class="mt-5"
+            ref="loadingAnim"
           ></v-progress-circular>
-          <!-- TODO: Remove this after these pages are fully implemented -->
-          <v-btn class="mt-5" @click="dialog = false">DEBUG: Close</v-btn>
+          <div class="mt-5">
+            <p class="text-caption">{{ playerAmount }} players have joined</p>
+          </div>
+          <v-expand-transition mode="out-in">
+            <v-btn
+              v-if="playerAmount > 1"
+              color="primary"
+              @click.native="startGame"
+              ref="startBtn"
+            >
+              Start game
+            </v-btn>
+          </v-expand-transition>
         </v-card-text>
       </v-card>
     </v-expand-transition>
@@ -99,6 +111,7 @@ export default {
       showSnackbar: false,
       isHost: false,
       formValid: false,
+      playerAmount: 1,
     };
   },
   methods: {
@@ -124,6 +137,9 @@ export default {
         this.isHost = true;
       }
     },
+    startGame() {
+      this.$socket.client.emit("startGame");
+    },
     required(value) {
       if (value) {
         this.formValid = true;
@@ -144,6 +160,11 @@ export default {
       set(nickname) {
         this.$store.commit("setNickname", nickname);
       },
+    },
+  },
+  sockets: {
+    roomConnection(playerAmount) {
+      this.playerAmount = playerAmount;
     },
   },
   mounted() {
