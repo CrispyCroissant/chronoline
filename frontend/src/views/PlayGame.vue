@@ -25,6 +25,26 @@ import TheTable from "../components/PlayGame/TheTable.vue";
 export default {
   components: { TheScoreboard, ThePlayerCardSheet, TheDialog, TheTable },
   name: "PlayGame",
+  beforeRouteEnter(_, from, next) {
+    if (!(from.name === "StartGame")) {
+      next((vm) => {
+        vm.checkRoom();
+      });
+    } else {
+      next();
+    }
+  },
+  methods: {
+    checkRoom() {
+      const roomId = this.$route.params.id;
+
+      this.$socket.client.emit("roomExists", { id: roomId });
+
+      this.$socket.client.on("roomNotFound", () => {
+        this.$router.push({ name: "RoomNotFound" });
+      });
+    },
+  },
 };
 </script>
 
