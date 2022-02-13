@@ -11,7 +11,9 @@
       Link Copied!
     </v-snackbar>
 
-    <v-card v-if="!showLoadingDialog" ref="inviteDialog">
+    <!-- TODO: Refactor all cards into their own components. -->
+
+    <v-card v-if="!showLoadingDialog && isHost" ref="inviteDialog">
       <v-card-title class="text-h5 white--text accent d-flex justify-center">
         Invitation link
       </v-card-title>
@@ -27,6 +29,35 @@
       <v-card-actions class="d-flex justify-center">
         <v-btn color="primary" text @click.native="attemptClose" ref="closeBtn">
           Close
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+
+    <v-card
+      v-if="!isHost"
+      @keydown.enter.prevent="joinRoom"
+      ref="nicknameDialog"
+    >
+      <v-card-title class="text-h5 white--text accent d-flex justify-center">
+        Before you play...
+      </v-card-title>
+      <v-card-text
+        class="mt-10 text-center d-flex flex-column align-center justify-center"
+      >
+        <p class="text-body-1">Enter a nickname</p>
+        <v-form>
+          <v-text-field
+            autofocus
+            v-model="nickname"
+            :rules="[required]"
+            outlined
+          ></v-text-field>
+        </v-form>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions class="d-flex justify-center">
+        <v-btn color="primary" text @click.native="joinRoom" ref="playBtn">
+          Play
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -66,6 +97,8 @@ export default {
       loading: true,
       showLoadingDialog: false,
       showSnackbar: false,
+      isHost: false,
+      formValid: false,
     };
   },
   methods: {
@@ -80,11 +113,43 @@ export default {
       this.showSnackbar = true;
       navigator.clipboard.writeText(this.currentURL);
     },
+    joinRoom() {
+      if (this.formValid) {
+        const nickname = this.$store.state.nickname;
+        const roomId = this.$route.params.id;
+
+        this.$socket.client.emit("joinRoom", { nickname, id: roomId });
+        this.showLoadingDialog = true;
+        // Just used to hide nickname card. User is not actaully host.
+        this.isHost = true;
+      }
+    },
+    required(value) {
+      if (value) {
+        this.formValid = true;
+        return !!value;
+      } else {
+        return "You need to provide a nickname.";
+      }
+    },
   },
   computed: {
     currentURL() {
       return process.env.VUE_APP_URL + this.$route.path;
     },
+    nickname: {
+      get() {
+        return this.$store.state.nickname;
+      },
+      set(nickname) {
+        this.$store.commit("setNickname", nickname);
+      },
+    },
+  },
+  mounted() {
+    if (this.$store.state.nickname) {
+      this.isHost = true;
+    }
   },
 };
 </script>
