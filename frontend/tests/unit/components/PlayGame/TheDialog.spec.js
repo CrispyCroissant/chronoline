@@ -142,6 +142,18 @@ describe("The dialogs", () => {
 
       expect(spy).toBeCalledTimes(1);
     });
+
+    it("does show loading if startGame event was sent", async () => {
+      await wrapper.setData({
+        showLoadingDialog: true,
+        loading: true,
+        gameStarted: true,
+      });
+
+      const loading = wrapper.findComponent({ ref: "loadingAnim" });
+
+      expect(loading.exists()).toBe(true);
+    });
   });
 
   describe("the invite CTA dialog", () => {

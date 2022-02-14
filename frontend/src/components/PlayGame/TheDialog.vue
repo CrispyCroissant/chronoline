@@ -75,7 +75,7 @@
             {{ currentURL }}
           </div>
           <v-progress-circular
-            v-if="playerAmount <= 1"
+            v-if="playerAmount <= 1 || gameStarted"
             indeterminate
             color="primary"
             class="mt-5"
@@ -86,7 +86,7 @@
           </div>
           <v-expand-transition mode="out-in">
             <v-btn
-              v-if="playerAmount > 1"
+              v-if="playerAmount > 1 && !gameStarted"
               color="primary"
               @click.native="startGame"
               ref="startBtn"
@@ -112,6 +112,7 @@ export default {
       isHost: false,
       formValid: false,
       playerAmount: 1,
+      gameStarted: false,
     };
   },
   methods: {
@@ -139,6 +140,7 @@ export default {
     },
     startGame() {
       this.$socket.client.emit("startGame");
+      this.gameStarted = true;
     },
     required(value) {
       if (value) {
@@ -165,6 +167,18 @@ export default {
   sockets: {
     roomConnection(playerAmount) {
       this.playerAmount = playerAmount;
+    },
+    initGame(roomData) {
+      const { deck, table, players, currentTurn } = roomData;
+
+      this.$store.commit("setCardDeck", deck);
+      this.$store.commit("setCardsOnTable", table);
+      this.$store.commit("setPlayers", players);
+      this.$store.commit("setCurrentTurn", currentTurn);
+      this.dialog = false;
+    },
+    startLoadingGame() {
+      this.gameStarted = true;
     },
   },
   mounted() {
