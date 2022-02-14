@@ -5,24 +5,26 @@
     rounded="lg"
     max-width="10rem"
     draggable="true"
-    @click="showYear = !showYear"
+    @click="displayYear"
+    v-if="card"
   >
     <v-sheet color="primary" rounded="lg b-0">
       <p class="text-body-2 text-center white--text ma-0 pa-3">
-        George Washington
+        {{ card.title }}
       </p>
     </v-sheet>
     <v-row justify="center" class="my-2">
       <v-col cols="12" class="ma-0 pa-0">
         <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
-          born
+          {{ card.timeType }}
         </p>
       </v-col>
       <v-col cols="12" class="d-flex justify-center pa-0">
         <v-img
-          src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg"
+          :src="card.thumbnail"
           max-height="110px"
-          max-width="100px"
+          max-width="140px"
+          contain
           class="mb-3 rounded-lg"
         />
       </v-col>
@@ -30,14 +32,14 @@
     <v-expand-transition>
       <v-sheet v-if="!showYear" color="grey lighten-3" rounded="lg t-0">
         <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
-          American President
+          {{ card.desc }}
         </p>
       </v-sheet>
     </v-expand-transition>
     <v-expand-transition>
-      <v-sheet v-if="showYear" color="success" rounded="lg t-0">
+      <v-sheet v-if="showYear && onTable" :color="yearColor" rounded="lg t-0">
         <p class="text-caption text-center text-wrap ma-0 pa-2 white--text">
-          1732
+          {{ card.date.split("-")[0].split("+")[1] }}
         </p>
       </v-sheet>
     </v-expand-transition>
@@ -47,10 +49,26 @@
 <script>
 export default {
   name: "PlayingCard",
+  props: ["card", "onTable", "correct"],
   data() {
     return {
       showYear: false,
     };
+  },
+  methods: {
+    displayYear() {
+      if (this.onTable) {
+        this.showYear = !this.showYear;
+      }
+    },
+  },
+  computed: {
+    yearColor() {
+      if (!this.correct) {
+        return "error";
+      }
+      return "success";
+    },
   },
 };
 </script>
