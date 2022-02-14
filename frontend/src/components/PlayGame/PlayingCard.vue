@@ -8,7 +8,7 @@
     @click="displayYear"
     v-if="card"
   >
-    <v-sheet color="primary" rounded="lg b-0">
+    <v-sheet :color="titleColor" rounded="lg b-0">
       <p class="text-body-2 text-center white--text ma-0 pa-3">
         {{ card.title }}
       </p>
@@ -30,7 +30,11 @@
       </v-col>
     </v-row>
     <v-expand-transition>
-      <v-sheet v-if="!showYear" color="grey lighten-3" rounded="lg t-0">
+      <v-sheet
+        v-if="!showYear || (!onTable && showDesc)"
+        color="grey lighten-3"
+        rounded="lg t-0"
+      >
         <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
           {{ card.desc }}
         </p>
@@ -52,13 +56,16 @@ export default {
   props: ["card", "onTable", "correct"],
   data() {
     return {
-      showYear: false,
+      showYear: true,
+      showDesc: true,
     };
   },
   methods: {
     displayYear() {
       if (this.onTable) {
         this.showYear = !this.showYear;
+      } else {
+        this.showDesc = !this.showDesc;
       }
     },
   },
@@ -68,6 +75,12 @@ export default {
         return "error";
       }
       return "success";
+    },
+    titleColor() {
+      if (this.onTable) {
+        return "secondary";
+      }
+      return "primary";
     },
   },
 };
