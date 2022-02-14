@@ -7,13 +7,13 @@
           <v-icon v-if="minimized" color="accent">mdi-chevron-up</v-icon>
         </v-btn>
       </v-col>
-      <h2 class="text-h3 font-weight-bold onyx--text">Your cards</h2>
+      <h2 class="text-h3 font-weight-bold onyx--text">{{ title }}</h2>
     </v-row>
     <v-expand-transition>
       <div v-show="!minimized">
         <v-row justify="end" ref="sheetContent">
           <v-col cols="2">
-            <ThePlayersMenu />
+            <ThePlayersMenu @changePlayer="changePlayer" />
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="2" v-for="card in cards" :key="card.title">
@@ -36,16 +36,29 @@ export default {
     return {
       render: false,
       minimized: false,
+      cards: [],
+      title: "Your cards",
     };
   },
-  computed: {
-    cards() {
-      return this.$store.getters.playersCards(this.$store.state.nickname);
+  methods: {
+    //TODO: Write tests for these methods
+    changePlayer(playerName) {
+      this.getCards(playerName);
+
+      if (playerName === this.$store.state.nickname) {
+        this.title = "Your cards";
+      } else {
+        this.title = `${playerName}'s cards`;
+      }
+    },
+    getCards(name) {
+      this.cards = this.$store.getters.playersCards(name);
     },
   },
   sockets: {
     initGame() {
       this.render = true;
+      this.getCards(this.$store.state.nickname);
     },
   },
 };
