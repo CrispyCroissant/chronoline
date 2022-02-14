@@ -54,7 +54,7 @@ export const getters = {
       return a.cardAmount - b.cardAmount;
     });
   },
-  playersCards(state, name) {
+  playersCards: (state) => (name) => {
     const player = state.players.find((player) => {
       return player.nickname === name;
     });
