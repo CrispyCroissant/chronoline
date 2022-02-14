@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="pa-10" width="100%" elevation="5">
+  <v-sheet class="pa-10" width="100%" elevation="5" v-if="render">
     <v-row justify="center" class="mb-10" ref="titleRow">
       <v-col cols="12" class="d-flex justify-end pa-0">
         <v-btn icon small ref="sizeBtn" @click.native="minimized = !minimized">
@@ -16,20 +16,8 @@
             <ThePlayersMenu />
           </v-col>
           <v-spacer></v-spacer>
-          <v-col cols="2">
-            <PlayerCard />
-          </v-col>
-          <v-col cols="2">
-            <PlayerCard />
-          </v-col>
-          <v-col cols="2">
-            <PlayerCard />
-          </v-col>
-          <v-col cols="2">
-            <PlayerCard />
-          </v-col>
-          <v-col cols="2">
-            <PlayerCard />
+          <v-col cols="2" v-for="card in cards" :key="card.title">
+            <PlayerCard :card="card" />
           </v-col>
         </v-row>
       </div>
@@ -46,8 +34,19 @@ export default {
   name: "ThePlayerCardSheet",
   data() {
     return {
+      render: false,
       minimized: false,
     };
+  },
+  computed: {
+    cards() {
+      return this.$store.getters.playersCards(this.$store.state.nickname);
+    },
+  },
+  sockets: {
+    initGame() {
+      this.render = true;
+    },
   },
 };
 </script>
