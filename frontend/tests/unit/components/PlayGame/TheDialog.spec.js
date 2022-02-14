@@ -32,25 +32,23 @@ describe("The dialogs", () => {
   });
 
   describe("The loading dialog", () => {
-    it("shows the loading dialog when loading", () => {
+    it("shows itself when loading", () => {
       const wrapper = shallowMount(TheDialog, {
         localVue,
         vuetify,
         router,
         data() {
           return {
-            loading: true,
             showLoadingDialog: true,
+            isHost: true,
           };
         },
         store,
       });
 
       const loadDialog = wrapper.findComponent({ ref: "loadDialog" });
-      const inviteDialog = wrapper.findComponent({ ref: "inviteDialog" });
 
       expect(loadDialog.exists()).toBe(true);
-      expect(inviteDialog.exists()).toBe(false);
     });
 
     it("closes the loading dialog when loading is finished", async () => {
@@ -102,7 +100,7 @@ describe("The dialogs", () => {
         router,
         data() {
           return {
-            loading: true,
+            isHost: true,
             showLoadingDialog: true,
             playerAmount: 1,
           };
@@ -128,7 +126,7 @@ describe("The dialogs", () => {
         router,
         data() {
           return {
-            loading: true,
+            isHost: true,
             showLoadingDialog: true,
             playerAmount: 4,
           };
@@ -146,61 +144,13 @@ describe("The dialogs", () => {
     it("does show loading if startGame event was sent", async () => {
       await wrapper.setData({
         showLoadingDialog: true,
-        loading: true,
+        isHost: true,
         gameStarted: true,
       });
 
       const loading = wrapper.findComponent({ ref: "loadingAnim" });
 
       expect(loading.exists()).toBe(true);
-    });
-  });
-
-  describe("the invite CTA dialog", () => {
-    it("shows the invitation CTA if user is host", async () => {
-      await wrapper.setData({ isHost: true });
-
-      const inviteDialog = wrapper.findComponent({ ref: "inviteDialog" });
-      const loadDialog = wrapper.findComponent({ ref: "loadDialog" });
-
-      expect(inviteDialog.exists()).toBe(true);
-      expect(loadDialog.exists()).toBe(false);
-    });
-
-    it("copies the URL to clipboard upon clicking the invitation link", async () => {
-      await wrapper.setData({ isHost: true });
-
-      const spy = jest
-        .spyOn(wrapper.vm, "copyToClipBoard")
-        .mockImplementationOnce(() => jest.fn());
-
-      await wrapper.findComponent({ ref: "invitationLink" }).trigger("click");
-
-      expect(spy).toBeCalledTimes(1);
-    });
-
-    it("shows a tooltip upon clicking the invitation link", async () => {
-      await wrapper.setData({ isHost: true });
-
-      jest
-        .spyOn(wrapper.vm, "copyToClipBoard")
-        .mockImplementationOnce(() => jest.fn());
-
-      await wrapper.findComponent({ ref: "invitationLink" }).trigger("click");
-
-      const tooltip = wrapper.findComponent({ ref: "snackbar" });
-
-      expect(tooltip.isVisible()).toBe(true);
-    });
-
-    it("closes the dialog on button click", async () => {
-      await wrapper.setData({ isHost: true });
-
-      const spy = jest.spyOn(wrapper.vm, "attemptClose");
-
-      await wrapper.findComponent({ ref: "closeBtn" }).trigger("click");
-
-      expect(spy).toBeCalledTimes(1);
     });
   });
 

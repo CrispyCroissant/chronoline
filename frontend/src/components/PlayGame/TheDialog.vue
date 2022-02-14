@@ -12,27 +12,6 @@
     </v-snackbar>
 
     <!-- TODO: Refactor all cards into their own components. -->
-
-    <v-card v-if="!showLoadingDialog && isHost" ref="inviteDialog">
-      <v-card-title class="text-h5 white--text accent d-flex justify-center">
-        Invitation link
-      </v-card-title>
-      <v-card-text
-        class="clickable mt-5 text-center d-flex align-center justify-center"
-        @click="copyToClipBoard()"
-        ref="invitationLink"
-      >
-        <v-icon class="mr-1">mdi-link</v-icon>
-        {{ currentURL }}
-      </v-card-text>
-      <v-divider></v-divider>
-      <v-card-actions class="d-flex justify-center">
-        <v-btn color="primary" text @click.native="attemptClose" ref="closeBtn">
-          Close
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-
     <v-card
       v-if="!isHost"
       @keydown.enter.prevent="joinRoom"
@@ -63,7 +42,7 @@
     </v-card>
 
     <v-expand-transition>
-      <v-card v-if="showLoadingDialog && loading" ref="loadDialog">
+      <v-card v-if="showLoadingDialog && isHost" ref="loadDialog">
         <v-card-title class="text-h5 white--text accent d-flex justify-center">
           {{ loadingTitle }}
         </v-card-title>
@@ -106,8 +85,7 @@ export default {
   data() {
     return {
       dialog: true,
-      loading: true,
-      showLoadingDialog: false,
+      showLoadingDialog: true,
       showSnackbar: false,
       isHost: false,
       formValid: false,
@@ -116,13 +94,6 @@ export default {
     };
   },
   methods: {
-    attemptClose() {
-      if (!this.loading) {
-        this.dialog = false;
-      } else {
-        this.showLoadingDialog = true;
-      }
-    },
     copyToClipBoard() {
       this.showSnackbar = true;
       navigator.clipboard.writeText(this.currentURL);
@@ -136,6 +107,7 @@ export default {
         this.showLoadingDialog = true;
         // Just used to hide nickname card. User is not actaully host.
         this.isHost = true;
+        this.showLoadingDialog = true;
       }
     },
     startGame() {
