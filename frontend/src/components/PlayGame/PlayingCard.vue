@@ -64,8 +64,6 @@ export default {
     displayYear() {
       if (this.onTable) {
         this.showYear = !this.showYear;
-      } else {
-        this.showDesc = !this.showDesc;
       }
     },
   },
