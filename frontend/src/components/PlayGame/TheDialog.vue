@@ -65,7 +65,7 @@
     <v-expand-transition>
       <v-card v-if="showLoadingDialog && loading" ref="loadDialog">
         <v-card-title class="text-h5 white--text accent d-flex justify-center">
-          Waiting for players
+          {{ loadingTitle }}
         </v-card-title>
         <v-card-text
           class="mt-5 d-flex flex-column align-center justify-center"
@@ -162,6 +162,12 @@ export default {
       set(nickname) {
         this.$store.commit("setNickname", nickname);
       },
+    },
+    loadingTitle() {
+      if (this.gameStarted) {
+        return "Starting game...";
+      }
+      return "Waiting for players";
     },
   },
   sockets: {
