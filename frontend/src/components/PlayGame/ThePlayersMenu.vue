@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="text-body-1">Look at the other player's cards</p>
-    <v-btn-toggle class="d-flex flex-column" mandatory>
+    <v-btn-toggle class="d-flex flex-column" mandatory dense shaped borderless>
       <v-btn
         :color="color(player.nickname)"
         max-width="10rem"
@@ -27,9 +27,9 @@ export default {
     },
     color(name) {
       if (name === this.$store.state.nickname) {
-        return "success";
+        return "success darken-1";
       }
-      return "secondary";
+      return "orange lighten-1";
     },
   },
   computed: {
