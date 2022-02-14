@@ -1,5 +1,5 @@
 <template>
-  <v-sheet color="transparent" class="mr-5 mt-5">
+  <v-sheet color="transparent" class="mr-5 mt-5" v-if="render">
     <v-row justify="center" class="mb-1">
       <v-btn icon x-large @click.native="show = !show" ref="showBtn">
         <v-icon color="secondary">
@@ -12,28 +12,20 @@
         <hr />
         <v-row justify="center">
           <v-col class="pb-0 mt-2">
-            <p class="text-overline text-center pa-0">Name</p>
+            <p class="text-overline text-center pa-0">Player</p>
           </v-col>
           <v-col class="pb-0 mt-2">
             <p class="text-overline text-center pa-0">Cards</p>
           </v-col>
         </v-row>
         <v-list ref="playerList" color="transparent" dense>
-          <v-list-item>
+          <v-list-item v-for="player in players" :key="player.nickname">
             <v-list-item-title class="text-body-2">
-              CrazyFrogLover
+              {{ player.nickname }}
             </v-list-item-title>
-            <v-list-item-action class="text-body-2 ml-15">2</v-list-item-action>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title class="text-body-2">Rory</v-list-item-title>
-            <v-list-item-action class="text-body-2 ml-15">4</v-list-item-action>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title class="text-body-2">
-              Gary Chess
-            </v-list-item-title>
-            <v-list-item-action class="text-body-2 ml-15">6</v-list-item-action>
+            <v-list-item-action class="text-body-2 ml-15">
+              {{ player.cardAmount }}
+            </v-list-item-action>
           </v-list-item>
         </v-list>
       </div>
@@ -46,8 +38,19 @@ export default {
   name: "TheScoreboard",
   data() {
     return {
+      render: false,
       show: true,
     };
+  },
+  computed: {
+    players() {
+      return this.$store.getters.playerLeaderboard;
+    },
+  },
+  sockets: {
+    initGame() {
+      this.render = true;
+    },
   },
 };
 </script>
