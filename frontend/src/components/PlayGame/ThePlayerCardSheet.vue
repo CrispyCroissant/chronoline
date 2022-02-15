@@ -16,9 +16,17 @@
             <ThePlayersMenu @changePlayer="changePlayer" />
           </v-col>
           <v-spacer></v-spacer>
-          <v-col cols="2" v-for="card in cards" :key="card.title">
-            <PlayerCard :card="card" />
-          </v-col>
+          <drag
+            v-for="card in cards"
+            :key="card.title"
+            :data="card"
+            :drag-image-opacity="0.9"
+            go-back
+            
+            @cut="onCut"
+          >
+            <PlayerCard :card="card" ref="sheetCards" />
+          </drag>
         </v-row>
       </div>
     </v-expand-transition>
@@ -28,9 +36,10 @@
 <script>
 import ThePlayersMenu from "./ThePlayersMenu.vue";
 import PlayerCard from "./PlayingCard.vue";
+import { Drag } from "vue-easy-dnd";
 
 export default {
-  components: { PlayerCard, ThePlayersMenu },
+  components: { PlayerCard, ThePlayersMenu, Drag },
   name: "ThePlayerCardSheet",
   data() {
     return {
@@ -38,6 +47,7 @@ export default {
       minimized: false,
       cards: [],
       title: "Your cards",
+      draggedCard: {},
     };
   },
   methods: {
@@ -54,6 +64,12 @@ export default {
     getCards(name) {
       this.cards = this.$store.getters.playersCards(name);
     },
+    onCut(e) {
+      const i = this.cards.findIndex((card) => {
+        return card === e.data;
+      });
+      this.cards.splice(i, 1);
+    },
   },
   sockets: {
     initGame() {
@@ -64,4 +80,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.hide {
+  visibility: hidden;
+}
+.show {
+  visibility: visible;
+}
+</style>
