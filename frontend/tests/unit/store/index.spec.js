@@ -77,6 +77,22 @@ describe("The mutations", () => {
       expect(state.currentPlayerTurn).toEqual("TestPlayer");
     });
   });
+
+  describe("setCardOnTable", () => {
+    it("inserts the card at the correct index", () => {
+      state.cardsOnTable = ["One", "Two", "Three"];
+
+      mutations.setCardOnTable(state, { card: "test", index: 2 });
+      expect(state.cardsOnTable[2]).toBe("test");
+    });
+
+    it("does not remove any cards", () => {
+      state.cardsOnTable = ["One", "Two", "Three"];
+
+      mutations.setCardOnTable(state, { card: "test", index: 2 });
+      expect(state.cardsOnTable.length).toBe(4);
+    });
+  });
 });
 
 describe("The actions", () => {

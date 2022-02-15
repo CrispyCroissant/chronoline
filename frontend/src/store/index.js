@@ -39,6 +39,9 @@ export const mutations = {
   setCurrentTurn(state, player) {
     state.currentPlayerTurn = player;
   },
+  setCardOnTable(state, { card, index }) {
+    state.cardsOnTable.splice(index, 0, card);
+  },
 };
 export const actions = {
   initStore({ commit }, data) {
