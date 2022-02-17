@@ -90,6 +90,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" @click="playAgain" text>Play again?</v-btn>
+        <v-btn color="secondary" @click="goHome" text>Close</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -107,7 +108,7 @@ export default {
       formValid: false,
       playerAmount: 1,
       gameStarted: false,
-      winner: "",
+      winner: "NoBitches?",
     };
   },
   methods: {
@@ -133,6 +134,9 @@ export default {
     },
     playAgain() {
       this.$router.go();
+    },
+    goHome() {
+      this.$router.push({ name: "Home" });
     },
     required(value) {
       if (value) {
