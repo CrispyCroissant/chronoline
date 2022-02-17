@@ -21,8 +21,8 @@
             :key="card.title"
             :data="card"
             :drag-image-opacity="0.9"
+            :disabled="!myTurn"
             go-back
-            
             @cut="onCut"
           >
             <PlayerCard :card="card" ref="sheetCards" />
@@ -49,6 +49,11 @@ export default {
       title: "Your cards",
       draggedCard: {},
     };
+  },
+  computed: {
+    myTurn() {
+      return this.$store.getters.isYourTurn;
+    },
   },
   methods: {
     //TODO: Write tests for these methods
