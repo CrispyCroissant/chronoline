@@ -108,7 +108,7 @@ export default {
       formValid: false,
       playerAmount: 1,
       gameStarted: false,
-      winner: "NoBitches?",
+      winner: "",
     };
   },
   methods: {
