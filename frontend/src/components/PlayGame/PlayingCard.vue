@@ -53,7 +53,7 @@
 <script>
 export default {
   name: "PlayingCard",
-  props: ["card", "onTable", "correct"],
+  props: ["card", "onTable"],
   data() {
     return {
       showYear: true,
@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     yearColor() {
-      if (!this.correct) {
+      if (this.card.correct === false) {
         return "error";
       }
       return "success";

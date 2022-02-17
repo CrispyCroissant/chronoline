@@ -16,12 +16,7 @@
       >
         <template v-slot:item="{ item }">
           <v-col :key="item.title" cols="2">
-            <PlayingCard
-              :card="item"
-              :onTable="true"
-              :correct="true"
-              class="mx-2"
-            />
+            <PlayingCard :card="item" :onTable="true" class="mx-2" />
           </v-col>
         </template>
         <template v-slot:feedback="{ data }">
@@ -48,6 +43,7 @@ export default {
     onDrop(event) {
       const { data, index } = event;
       this.$store.commit("setCardOnTable", { card: data, index });
+      this.$socket.client.emit("playCard", { card: data, index });
     },
   },
   computed: {
@@ -58,6 +54,12 @@ export default {
   sockets: {
     initGame() {
       this.render = true;
+    },
+    tableUpdate({ table }) {
+      this.$store.commit("setCardsOnTable", table);
+    },
+    playerUpdate({ players }) {
+      this.$store.commit("setPlayers", players);
     },
   },
 };
