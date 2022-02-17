@@ -21,6 +21,9 @@ export default {
     initGame() {
       this.render = true;
     },
+    nextTurn({ currentTurn }) {
+      this.$store.commit("setCurrentTurn", currentTurn);
+    },
   },
 };
 </script>
