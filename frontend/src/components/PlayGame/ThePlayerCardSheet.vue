@@ -81,6 +81,9 @@ export default {
       this.render = true;
       this.getCards(this.$store.state.nickname);
     },
+    playerUpdate() {
+      this.getCards(this.$store.state.nickname);
+    },
   },
 };
 </script>
