@@ -76,6 +76,22 @@
         </v-card-text>
       </v-card>
     </v-expand-transition>
+
+    <v-card v-if="winner">
+      <v-card-title class="text-h5 white--text success d-flex justify-center">
+        WINNER
+      </v-card-title>
+      <v-card-text class="mt-5 d-flex flex-column align-center justify-center">
+        <v-icon x-large color="amber">mdi-medal</v-icon>
+        <p class="text-body-1 mb-0 mt-5">
+          <span class="font-weight-bold">{{ winner }}</span> has won the game!
+        </p>
+        <p class="text-caption mb-0 mt-5">The rest stood no chance...</p>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" @click="playAgain" text>Play again?</v-btn>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 </template>
 
@@ -91,6 +107,7 @@ export default {
       formValid: false,
       playerAmount: 1,
       gameStarted: false,
+      winner: "",
     };
   },
   methods: {
@@ -113,6 +130,9 @@ export default {
     startGame() {
       this.$socket.client.emit("startGame");
       this.gameStarted = true;
+    },
+    playAgain() {
+      this.$router.go();
     },
     required(value) {
       if (value) {
@@ -157,6 +177,11 @@ export default {
     },
     startLoadingGame() {
       this.gameStarted = true;
+    },
+    gameFinished(player) {
+      this.dialog = true;
+      this.winner = player.nickname;
+      this.showLoadingDialog = false;
     },
   },
   mounted() {
