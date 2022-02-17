@@ -63,6 +63,9 @@ export const getters = {
     });
     return player.cards;
   },
+  isYourTurn(state) {
+    return state.currentPlayerTurn === state.nickname;
+  },
 };
 
 export default new Vuex.Store({

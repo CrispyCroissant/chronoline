@@ -135,6 +135,30 @@ describe("The getters", () => {
     });
   });
 
+  describe("isYourTurn", () => {
+    it("returns true if current turn is this player's", () => {
+      const mockedState = {
+        nickname: "Test1",
+        currentPlayerTurn: "Test1",
+      };
+
+      const result = getters.isYourTurn(mockedState);
+
+      expect(result).toBe(true);
+    });
+
+    it("returns false if current turn is NOT this player's", () => {
+      const mockedState = {
+        nickname: "Test2",
+        currentPlayerTurn: "Test1",
+      };
+
+      const result = getters.isYourTurn(mockedState);
+
+      expect(result).toBe(false);
+    });
+  });
+
   // TODO: Fix later
   /* describe("playersCards", () => {
     it("can return a certain player's cards", () => {
