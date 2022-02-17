@@ -43,7 +43,7 @@
     <v-expand-transition>
       <v-sheet v-if="showYear && onTable" :color="yearColor" rounded="lg t-0">
         <p class="text-caption text-center text-wrap ma-0 pa-2 white--text">
-          {{ card.date.split("-")[0].split("+")[1] }}
+          {{ new Date(card.date).getFullYear() }}
         </p>
       </v-sheet>
     </v-expand-transition>
