@@ -11,24 +11,25 @@
     </v-row>
     <v-expand-transition>
       <div v-show="!minimized">
-        <v-row justify="start" ref="sheetContent" class="pb-3">
-          <v-col cols="2">
+        <v-row justify="space-around" align="center" ref="sheetContent">
+          <v-col cols="1">
             <ThePlayersMenu @changePlayer="changePlayer" />
           </v-col>
           <v-spacer></v-spacer>
-          <v-col cols="10" class="d-flex justify-space-around mt-7">
-            <drag
-              v-for="card in cards"
-              :key="card.title"
-              :data="card"
-              :drag-image-opacity="0.9"
-              :disabled="!myTurn"
-              go-back
-              @cut="onCut"
-            >
+          <drag
+            v-for="card in cards"
+            :key="card.title"
+            :data="card"
+            :drag-image-opacity="1"
+            :disabled="!myTurn"
+            go-back
+            @cut="onCut"
+            class="col col-2"
+          >
+            <v-col cols="2">
               <PlayerCard :card="card" class="mx-2" ref="sheetCards" />
-            </drag>
-          </v-col>
+            </v-col>
+          </drag>
         </v-row>
       </div>
     </v-expand-transition>
