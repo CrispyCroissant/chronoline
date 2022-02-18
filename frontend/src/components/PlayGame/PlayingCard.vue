@@ -8,12 +8,12 @@
     @click="displayYear"
     v-if="card"
   >
-    <v-sheet :color="titleColor" rounded="lg b-0">
-      <p class="no-wrap text-caption text-center white--text ma-0 pa-3">
+    <v-sheet :color="titleColor" rounded="lg b-0" class="ma-0 px-3 py-2">
+      <p class="no-wrap text-caption text-center white--text">
         {{ card.title }}
       </p>
     </v-sheet>
-    <v-row justify="center" class="mt-2 mx-0">
+    <v-row justify="center" class="mx-0" style="background: #fff">
       <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
         {{ card.timeType }}
       </p>
@@ -46,6 +46,7 @@
           :color="yearColor"
           rounded="lg t-0"
           width="100%"
+          elevation="3"
         >
           <p class="text-caption text-center text-wrap ma-0 pa-2 white--text">
             {{ new Date(card.date).getFullYear() }}
@@ -108,5 +109,7 @@ export default {
 }
 .no-wrap {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
