@@ -1,9 +1,9 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuetify from "vuetify";
-import Vuex from "vuex";
-import TheTable from "@/components/PlayGame/TheTable.vue";
+import Vuex from "Vuex";
+import ThePlayerTurnTitle from "@/components/PlayGame/ThePlayerTurnTitle.vue";
 
-describe("The playing table", () => {
+describe("The title", () => {
   const localVue = createLocalVue();
   localVue.use(Vuex);
   let vuetify, store;
@@ -11,12 +11,12 @@ describe("The playing table", () => {
   beforeEach(() => {
     vuetify = new Vuetify();
     store = new Vuex.Store({
-      store: {},
+      state: {},
     });
   });
 
   it("exists", () => {
-    const wrapper = shallowMount(TheTable, {
+    const wrapper = shallowMount(ThePlayerTurnTitle, {
       localVue,
       vuetify,
       store,

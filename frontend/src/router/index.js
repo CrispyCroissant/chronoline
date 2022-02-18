@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import StartGame from "../views/StartGame.vue";
 import PlayGame from "../views/PlayGame.vue";
+import RoomNotFound from "../views/RoomNotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,12 @@ const routes = [
     name: "PlayGame",
     component: PlayGame,
     meta: { hasFooter: false },
+  },
+  {
+    path: "/no-room",
+    name: "RoomNotFound",
+    component: RoomNotFound,
+    meta: { hasFooter: true },
   },
 ];
 

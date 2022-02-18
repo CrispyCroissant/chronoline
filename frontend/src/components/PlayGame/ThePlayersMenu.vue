@@ -1,17 +1,53 @@
 <template>
   <div>
     <p class="text-body-1">Look at the other player's cards</p>
-    <v-btn-toggle class="d-flex flex-column" mandatory>
-      <v-btn color="secondary" max-width="10rem">Player 1</v-btn>
-      <v-btn color="secondary" max-width="10rem">Player 2</v-btn>
-      <v-btn color="secondary" max-width="10rem">Player 3</v-btn>
+    <v-btn-toggle class="d-flex flex-column" mandatory dense shaped borderless>
+      <v-btn
+        :color="color(player.nickname)"
+        max-width="10rem"
+        v-for="player in players"
+        :key="player.nickname"
+        @click="changePlayer(player.nickname)"
+      >
+        {{
+          player.nickname === $store.state.nickname ? "You" : player.nickname
+        }}
+      </v-btn>
     </v-btn-toggle>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ThePlayersMenu"
+  name: "ThePlayersMenu",
+  methods: {
+    // TODO: Write tests for these methods
+    changePlayer(playerName) {
+      this.$emit("changePlayer", playerName);
+    },
+    color(name) {
+      if (name === this.$store.state.nickname) {
+        return "success darken-1";
+      }
+      return "orange lighten-1";
+    },
+  },
+  computed: {
+    // TODO: Write tests for this
+    players() {
+      // Sort so player's own name is first.
+      const players = [
+        ...this.$store.state.players.filter(
+          (player) => player.nickname === this.$store.state.nickname
+        ),
+        ...this.$store.state.players.filter(
+          (player) => player.nickname !== this.$store.state.nickname
+        ),
+      ];
+
+      return players;
+    },
+  },
 };
 </script>
 

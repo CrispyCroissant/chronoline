@@ -11,49 +11,88 @@
       Link Copied!
     </v-snackbar>
 
-    <v-card v-if="!showLoadingDialog" ref="inviteDialog">
+    <!-- TODO: Refactor all cards into their own components. -->
+    <v-card
+      v-if="!isHost"
+      @keydown.enter.prevent="joinRoom"
+      ref="nicknameDialog"
+    >
       <v-card-title class="text-h5 white--text accent d-flex justify-center">
-        Invitation link
+        Before you play...
       </v-card-title>
       <v-card-text
-        class="clickable mt-5 text-center d-flex align-center justify-center"
-        @click="copyToClipBoard()"
-        ref="invitationLink"
+        class="mt-10 text-center d-flex flex-column align-center justify-center"
       >
-        <v-icon class="mr-1">mdi-link</v-icon>
-        {{ currentURL }}
+        <p class="text-body-1">Enter a nickname</p>
+        <v-form>
+          <v-text-field
+            autofocus
+            v-model="nickname"
+            :rules="[required]"
+            outlined
+          ></v-text-field>
+        </v-form>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions class="d-flex justify-center">
-        <v-btn color="primary" text @click.native="attemptClose" ref="closeBtn">
-          Close
+        <v-btn color="primary" text @click.native="joinRoom" ref="playBtn">
+          Play
         </v-btn>
       </v-card-actions>
     </v-card>
 
     <v-expand-transition>
-      <v-card v-if="showLoadingDialog && loading" ref="loadDialog">
+      <v-card v-if="showLoadingDialog && isHost" ref="loadDialog">
         <v-card-title class="text-h5 white--text accent d-flex justify-center">
-          Waiting for players
+          {{ loadingTitle }}
         </v-card-title>
         <v-card-text
-          class="clickable mt-5 d-flex flex-column align-center justify-center"
-          @click="copyToClipBoard()"
+          class="mt-5 d-flex flex-column align-center justify-center"
         >
-          <div>
+          <div class="clickable" @click="copyToClipBoard()">
             <v-icon class="mr-1">mdi-link</v-icon>
             {{ currentURL }}
           </div>
           <v-progress-circular
+            v-if="playerAmount <= 1 || gameStarted"
             indeterminate
             color="primary"
             class="mt-5"
+            ref="loadingAnim"
           ></v-progress-circular>
-          <!-- TODO: Remove this after these pages are fully implemented -->
-          <v-btn class="mt-5" @click="dialog = false">DEBUG: Close</v-btn>
+          <div class="mt-5">
+            <p class="text-caption">{{ playerAmount }} players have joined</p>
+          </div>
+          <v-expand-transition mode="out-in">
+            <v-btn
+              v-if="playerAmount > 1 && !gameStarted"
+              color="primary"
+              @click.native="startGame"
+              ref="startBtn"
+            >
+              Start game
+            </v-btn>
+          </v-expand-transition>
         </v-card-text>
       </v-card>
     </v-expand-transition>
+
+    <v-card v-if="winner">
+      <v-card-title class="text-h5 white--text success d-flex justify-center">
+        WINNER
+      </v-card-title>
+      <v-card-text class="mt-5 d-flex flex-column align-center justify-center">
+        <v-icon x-large color="amber">mdi-medal</v-icon>
+        <p class="text-body-1 mb-0 mt-5">
+          <span class="font-weight-bold">{{ winner }}</span> has won the game!
+        </p>
+        <p class="text-caption mb-0 mt-5">The rest stood no chance...</p>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" @click="playAgain" text>Play again?</v-btn>
+        <v-btn color="secondary" @click="goHome" text>Close</v-btn>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 </template>
 
@@ -63,28 +102,102 @@ export default {
   data() {
     return {
       dialog: true,
-      loading: true,
-      showLoadingDialog: false,
+      showLoadingDialog: true,
       showSnackbar: false,
+      isHost: false,
+      formValid: false,
+      playerAmount: 1,
+      gameStarted: false,
+      winner: "",
     };
   },
   methods: {
-    attemptClose() {
-      if (!this.loading) {
-        this.dialog = false;
-      } else {
-        this.showLoadingDialog = true;
-      }
-    },
     copyToClipBoard() {
       this.showSnackbar = true;
       navigator.clipboard.writeText(this.currentURL);
+    },
+    joinRoom() {
+      if (this.formValid) {
+        const nickname = this.$store.state.nickname;
+        const roomId = this.$route.params.id;
+
+        this.$socket.client.emit("joinRoom", { nickname, id: roomId });
+        this.showLoadingDialog = true;
+        // Just used to hide nickname card. User is not actaully host.
+        this.isHost = true;
+        this.showLoadingDialog = true;
+      }
+    },
+    startGame() {
+      this.$socket.client.emit("startGame");
+      this.gameStarted = true;
+    },
+    playAgain() {
+      this.$socket.client.emit("resetGame");
+    },
+    goHome() {
+      this.$router.push({ name: "Home" });
+    },
+    required(value) {
+      if (value) {
+        this.formValid = true;
+        return !!value;
+      } else {
+        return "You need to provide a nickname.";
+      }
     },
   },
   computed: {
     currentURL() {
       return process.env.VUE_APP_URL + this.$route.path;
     },
+    nickname: {
+      get() {
+        return this.$store.state.nickname;
+      },
+      set(nickname) {
+        this.$store.commit("setNickname", nickname);
+      },
+    },
+    loadingTitle() {
+      if (this.gameStarted) {
+        return "Starting game...";
+      }
+      return "Waiting for players";
+    },
+  },
+  sockets: {
+    roomConnection(playerAmount) {
+      this.playerAmount = playerAmount;
+    },
+    initGame(roomData) {
+      const { deck, table, players, currentTurn } = roomData;
+
+      this.$store.commit("setCardDeck", deck);
+      this.$store.commit("setCardsOnTable", table);
+      this.$store.commit("setPlayers", players);
+      this.$store.commit("setCurrentTurn", currentTurn);
+      this.dialog = false;
+    },
+    startLoadingGame() {
+      this.gameStarted = true;
+      this.showLoadingDialog = true;
+      this.winner = "";
+    },
+    gameFinished(player) {
+      this.showLoadingDialog = false;
+      this.dialog = true;
+      this.winner = player.nickname;
+    },
+    gameIsReset() {
+      this.$socket.client.emit("startGame");
+      this.startLoadingGame();
+    },
+  },
+  mounted() {
+    if (this.$store.state.nickname) {
+      this.isHost = true;
+    }
   },
 };
 </script>
