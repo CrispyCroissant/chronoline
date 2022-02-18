@@ -14,13 +14,22 @@
         class="row"
         :drag-image-opacity="0"
       >
-        <template v-slot:item="{ item }">
-          <v-col :key="item.title" cols="2">
-            <PlayingCard :card="item" :onTable="true" class="mx-2" />
+        <template v-slot:item="{ item, index }">
+          <v-col cols="1" :key="item.title" class="my-2">
+            <PlayingCard
+              :card="item"
+              :onTable="true"
+              @mouseover.native="addHover(index)"
+              @mouseleave.native="removeHover(index)"
+              class="fade"
+              :ref="'card' + index"
+            />
           </v-col>
         </template>
         <template v-slot:feedback="{ data }">
-          <PlayingCard :card="data" class="mx-2" :key="data.title" />
+          <v-col cols="1" :key="data.title" class="my-2">
+            <PlayingCard :card="data" />
+          </v-col>
         </template>
       </drop-list>
     </v-row>
@@ -45,6 +54,31 @@ export default {
       this.$store.commit("setCardOnTable", { card: data, index });
       this.$socket.client.emit("playCard", { card: data, index });
     },
+    addHover(index) {
+      // TODO: Don't add hover effect is mouse is clicked.
+      if (this.cards.length === 1) {
+        return;
+      }
+
+      for (let i = 0; i < this.cards.length; i++) {
+        if (i === index) continue;
+        const card = this.$refs[`card${i}`].$el;
+        card.classList.add("transparent");
+      }
+      this.$refs[`card${index}`].$el.classList.add("hovered");
+    },
+    removeHover(index) {
+      if (this.cards.length === 1) {
+        return;
+      }
+
+      for (let i = 0; i < this.cards.length; i++) {
+        if (i === index) continue;
+        const card = this.$refs[`card${i}`].$el;
+        card.classList.remove("transparent");
+      }
+      this.$refs[`card${index}`].$el.classList.remove("hovered");
+    },
   },
   computed: {
     cards() {
@@ -68,5 +102,18 @@ export default {
 <style scoped>
 .drop-list {
   width: 100%;
+}
+.fade {
+  transition: all 0.3s ease-out;
+  transition-property: margin, opacity;
+}
+.hovered {
+  position: absolute;
+  margin: -1rem 0;
+  z-index: 1;
+}
+.transparent {
+  opacity: 5%;
+  z-index: 0;
 }
 </style>
