@@ -1,10 +1,11 @@
 <template>
   <div>
-    <p class="text-body-1">Look at the other player's cards</p>
+    <p class="text-caption text-center mr-2">Look at other players</p>
     <v-btn-toggle class="d-flex flex-column" mandatory dense shaped borderless>
       <v-btn
         :color="color(player.nickname)"
         max-width="10rem"
+        height="2rem"
         v-for="player in players"
         :key="player.nickname"
         @click="changePlayer(player.nickname)"
