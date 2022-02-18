@@ -133,7 +133,7 @@ export default {
       this.gameStarted = true;
     },
     playAgain() {
-      this.$router.go();
+      this.$socket.client.emit("resetGame");
     },
     goHome() {
       this.$router.push({ name: "Home" });
@@ -181,11 +181,17 @@ export default {
     },
     startLoadingGame() {
       this.gameStarted = true;
+      this.showLoadingDialog = true;
+      this.winner = "";
     },
     gameFinished(player) {
       this.showLoadingDialog = false;
       this.dialog = true;
       this.winner = player.nickname;
+    },
+    gameIsReset() {
+      this.$socket.client.emit("startGame");
+      this.startLoadingGame();
     },
   },
   mounted() {
