@@ -1,7 +1,7 @@
 <template>
   <v-sheet color="transparent" class="mr-5 mt-5" v-if="render">
     <v-row justify="center" class="mb-1">
-      <v-btn icon x-large @click.native="show = !show" ref="showBtn">
+      <v-btn icon @click.native="show = !show" ref="showBtn">
         <v-icon color="secondary">
           {{ show ? "mdi-eye-off" : "mdi-eye" }}
         </v-icon>
@@ -12,18 +12,18 @@
         <hr />
         <v-row justify="center">
           <v-col class="pb-0 mt-2">
-            <p class="text-overline text-center pa-0">Player</p>
+            <p class="text-caption text-center pa-0 ma-0 mb-3">Player</p>
           </v-col>
           <v-col class="pb-0 mt-2">
-            <p class="text-overline text-center pa-0">Cards</p>
+            <p class="text-caption text-center pa-0 ma-0 mb-3">Cards</p>
           </v-col>
         </v-row>
         <v-list ref="playerList" color="transparent" dense>
           <v-list-item v-for="player in players" :key="player.nickname">
-            <v-list-item-title class="text-body-2">
+            <v-list-item-title class="text-caption">
               {{ player.nickname }}
             </v-list-item-title>
-            <v-list-item-action class="text-body-2 ml-15">
+            <v-list-item-action class="text-caption ml-15">
               {{ player.cardAmount }}
             </v-list-item-action>
           </v-list-item>
