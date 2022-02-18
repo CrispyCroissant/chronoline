@@ -28,9 +28,9 @@ export default {
     },
     color(name) {
       if (name === this.$store.state.nickname) {
-        return "success darken-1";
+        return "info";
       }
-      return "orange lighten-1";
+      return "secondary";
     },
   },
   computed: {
