@@ -1,32 +1,34 @@
 <template>
-  <v-sheet class="pa-10" width="100%" elevation="5" v-if="render">
-    <v-row justify="center" class="mb-10" ref="titleRow">
+  <v-sheet class="pa-10 pt-3" width="100%" elevation="5" v-if="render">
+    <v-row justify="center" ref="titleRow">
       <v-col cols="12" class="d-flex justify-end pa-0">
         <v-btn icon small ref="sizeBtn" @click.native="minimized = !minimized">
           <v-icon v-if="!minimized" color="accent">mdi-chevron-down</v-icon>
           <v-icon v-if="minimized" color="accent">mdi-chevron-up</v-icon>
         </v-btn>
       </v-col>
-      <h2 class="text-h3 font-weight-bold onyx--text">{{ title }}</h2>
+      <h2 class="text-h4 font-weight-bold onyx--text">{{ title }}</h2>
     </v-row>
     <v-expand-transition>
       <div v-show="!minimized">
-        <v-row justify="end" ref="sheetContent">
+        <v-row justify="start" ref="sheetContent" class="pb-3">
           <v-col cols="2">
             <ThePlayersMenu @changePlayer="changePlayer" />
           </v-col>
           <v-spacer></v-spacer>
-          <drag
-            v-for="card in cards"
-            :key="card.title"
-            :data="card"
-            :drag-image-opacity="0.9"
-            :disabled="!myTurn"
-            go-back
-            @cut="onCut"
-          >
-            <PlayerCard :card="card" ref="sheetCards" />
-          </drag>
+          <v-col cols="10" class="d-flex justify-space-around mt-7">
+            <drag
+              v-for="card in cards"
+              :key="card.title"
+              :data="card"
+              :drag-image-opacity="0.9"
+              :disabled="!myTurn"
+              go-back
+              @cut="onCut"
+            >
+              <PlayerCard :card="card" class="mx-2" ref="sheetCards" />
+            </drag>
+          </v-col>
         </v-row>
       </div>
     </v-expand-transition>
