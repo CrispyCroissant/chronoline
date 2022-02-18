@@ -1,19 +1,30 @@
 <template>
   <div>
-    <p class="text-body-1">Look at the other player's cards</p>
-    <v-btn-toggle class="d-flex flex-column" mandatory dense shaped borderless>
-      <v-btn
-        :color="color(player.nickname)"
-        max-width="10rem"
-        v-for="player in players"
-        :key="player.nickname"
-        @click="changePlayer(player.nickname)"
+    <v-row justify="center">
+      <p class="text-caption">Look at other players</p>
+    </v-row>
+    <v-row class="d-flex flex-column align-center">
+      <v-btn-toggle
+        class="d-flex flex-column"
+        style="width: 10rem"
+        mandatory
+        dense
+        shaped
+        borderless
       >
-        {{
-          player.nickname === $store.state.nickname ? "You" : player.nickname
-        }}
-      </v-btn>
-    </v-btn-toggle>
+        <v-btn
+          :color="color(player.nickname)"
+          height="2rem"
+          v-for="player in players"
+          :key="player.nickname"
+          @click="changePlayer(player.nickname)"
+        >
+          {{
+            player.nickname === $store.state.nickname ? "You" : player.nickname
+          }}
+        </v-btn>
+      </v-btn-toggle>
+    </v-row>
   </div>
 </template>
 
@@ -27,9 +38,9 @@ export default {
     },
     color(name) {
       if (name === this.$store.state.nickname) {
-        return "success darken-1";
+        return "info";
       }
-      return "orange lighten-1";
+      return "secondary";
     },
   },
   computed: {

@@ -1,18 +1,18 @@
 <template>
-  <v-sheet class="pa-10" width="100%" elevation="5" v-if="render">
-    <v-row justify="center" class="mb-10" ref="titleRow">
+  <v-sheet class="pa-10 pt-3" width="100%" elevation="5" v-if="render">
+    <v-row justify="center" ref="titleRow">
       <v-col cols="12" class="d-flex justify-end pa-0">
         <v-btn icon small ref="sizeBtn" @click.native="minimized = !minimized">
           <v-icon v-if="!minimized" color="accent">mdi-chevron-down</v-icon>
           <v-icon v-if="minimized" color="accent">mdi-chevron-up</v-icon>
         </v-btn>
       </v-col>
-      <h2 class="text-h3 font-weight-bold onyx--text">{{ title }}</h2>
+      <h2 class="text-h4 mb-5 font-weight-bold onyx--text">{{ title }}</h2>
     </v-row>
     <v-expand-transition>
       <div v-show="!minimized">
-        <v-row justify="end" ref="sheetContent">
-          <v-col cols="2">
+        <v-row justify="space-around" align="center" ref="sheetContent">
+          <v-col cols="1">
             <ThePlayersMenu @changePlayer="changePlayer" />
           </v-col>
           <v-spacer></v-spacer>
@@ -20,12 +20,15 @@
             v-for="card in cards"
             :key="card.title"
             :data="card"
-            :drag-image-opacity="0.9"
+            :drag-image-opacity="1"
             :disabled="!myTurn"
             go-back
             @cut="onCut"
+            class="col col-2"
           >
-            <PlayerCard :card="card" ref="sheetCards" />
+            <v-col cols="2">
+              <PlayerCard :card="card" class="mx-2" ref="sheetCards" />
+            </v-col>
           </drag>
         </v-row>
       </div>

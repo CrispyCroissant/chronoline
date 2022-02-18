@@ -1,5 +1,5 @@
 <template>
-  <v-sheet v-if="render" color="primary" class="pa-10" rounded="xl">
+  <v-sheet v-if="render" :color="color" class="pa-10" rounded="xl">
     <h3 class="text-h4 white--text">{{ title }}</h3>
   </v-sheet>
 </template>
@@ -14,7 +14,18 @@ export default {
   },
   computed: {
     title() {
+      const nickname = this.$store.state.nickname;
+      const currentTurnPlayer = this.$store.state.currentPlayerTurn;
+
+      if (currentTurnPlayer === nickname) return "Your turn";
       return `${this.$store.state.currentPlayerTurn}'s turn`;
+    },
+    color() {
+      const nickname = this.$store.state.nickname;
+      const currentTurnPlayer = this.$store.state.currentPlayerTurn;
+
+      if (currentTurnPlayer === nickname) return "success";
+      return "primary";
     },
   },
   sockets: {
