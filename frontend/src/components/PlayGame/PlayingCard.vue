@@ -3,8 +3,8 @@
     elevation="5"
     class="card"
     rounded="lg"
-    max-width="10rem"
-    draggable="true"
+    width="10rem"
+    height="11.5rem"
     @click="displayYear"
     v-if="card"
   >
@@ -13,40 +13,45 @@
         {{ card.title }}
       </p>
     </v-sheet>
-    <v-row justify="center" class="my-2">
-      <v-col cols="12" class="ma-0 pa-0">
-        <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
-          {{ card.timeType }}
-        </p>
-      </v-col>
-      <v-col cols="12" class="d-flex justify-center pa-0">
-        <v-img
-          :src="card.thumbnail"
-          max-height="110px"
-          max-width="140px"
-          contain
-          class="mb-3 rounded-lg"
-        />
-      </v-col>
+    <v-row justify="center" class="mt-2 mx-0">
+      <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
+        {{ card.timeType }}
+      </p>
+      <v-img
+        :src="card.thumbnail"
+        height="5rem"
+        max-width="100%"
+        position="75% 25%"
+      />
     </v-row>
-    <v-expand-transition>
-      <v-sheet
-        v-if="!showYear || (!onTable && showDesc)"
-        color="grey lighten-3"
-        rounded="lg t-0"
-      >
-        <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
-          {{ card.desc }}
-        </p>
-      </v-sheet>
-    </v-expand-transition>
-    <v-expand-transition>
-      <v-sheet v-if="showYear && onTable" :color="yearColor" rounded="lg t-0">
-        <p class="text-caption text-center text-wrap ma-0 pa-2 white--text">
-          {{ new Date(card.date).getFullYear() }}
-        </p>
-      </v-sheet>
-    </v-expand-transition>
+    <v-row justify="center" class="mx-0">
+      <v-expand-transition>
+        <v-sheet
+          v-if="!showYear || (!onTable && showDesc)"
+          color="grey lighten-3"
+          rounded="lg t-0"
+          width="100%"
+          height="3rem"
+          class="d-flex align-center justify-center"
+        >
+          <p class="desc text-center text-wrap ma-0 pa-2 onyx--text">
+            {{ card.desc | truncate }}
+          </p>
+        </v-sheet>
+      </v-expand-transition>
+      <v-expand-transition>
+        <v-sheet
+          v-if="showYear && onTable"
+          :color="yearColor"
+          rounded="lg t-0"
+          width="100%"
+        >
+          <p class="text-caption text-center text-wrap ma-0 pa-2 white--text">
+            {{ new Date(card.date).getFullYear() }}
+          </p>
+        </v-sheet>
+      </v-expand-transition>
+    </v-row>
   </v-sheet>
 </template>
 
@@ -81,11 +86,23 @@ export default {
       return "primary";
     },
   },
+  filters: {
+    truncate(string) {
+      const maxLength = 40;
+      if (string.length > maxLength) {
+        return string.substring(0, maxLength) + "...";
+      }
+      return string;
+    },
+  },
 };
 </script>
 
 <style scoped>
 .card {
   cursor: pointer;
+}
+.desc {
+  font-size: 12px;
 }
 </style>
