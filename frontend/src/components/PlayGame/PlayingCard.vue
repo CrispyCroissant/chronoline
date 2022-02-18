@@ -9,7 +9,7 @@
     v-if="card"
   >
     <v-sheet :color="titleColor" rounded="lg b-0">
-      <p class="text-body-2 text-center white--text ma-0 pa-3">
+      <p class="no-wrap text-caption text-center white--text ma-0 pa-3">
         {{ card.title }}
       </p>
     </v-sheet>
@@ -33,6 +33,7 @@
           width="100%"
           height="3rem"
           class="d-flex align-center justify-center"
+          elevation="3"
         >
           <p class="desc text-center text-wrap ma-0 pa-2 onyx--text">
             {{ card.desc | truncate }}
@@ -104,5 +105,8 @@ export default {
 }
 .desc {
   font-size: 12px;
+}
+.no-wrap {
+  white-space: nowrap;
 }
 </style>
