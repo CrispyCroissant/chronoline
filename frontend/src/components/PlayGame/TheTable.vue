@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       render: false,
+      playAudio: false,
     };
   },
   methods: {
@@ -90,6 +91,14 @@ export default {
       this.render = true;
     },
     tableUpdate({ table }) {
+      // This event is emitted twice. This line makes the audio play only once.
+      this.playAudio = !this.playAudio;
+
+      if (this.playAudio) {
+        const audio = new Audio(require("@/assets/cardPlayed.mp3"));
+        audio.play();
+      }
+
       this.$store.commit("setCardsOnTable", table);
     },
     playerUpdate({ players }) {
