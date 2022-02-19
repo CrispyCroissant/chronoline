@@ -99,6 +99,7 @@
 <script>
 const audioClock = new Audio(require("@/assets/clockTick.mp3"));
 const audioWin = new Audio(require("@/assets/winner.mp3"));
+audioWin.volume = 0.2
 
 export default {
   name: "TheDialog",
