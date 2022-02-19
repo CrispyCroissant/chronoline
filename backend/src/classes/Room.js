@@ -16,6 +16,10 @@ class Room {
     this.#resetPlayers();
   }
 
+  addPlayer(player) {
+    this.players.push(player);
+  }
+
   async fillDeck(amount) {
     if (amount >= 50) {
       this.deck = await getCards(50);

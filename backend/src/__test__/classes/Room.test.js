@@ -55,6 +55,16 @@ describe("The Room class", () => {
     });
   });
 
+  describe("addPlayer()", () => {
+    it("pushes the given player to the player list", () => {
+      const newPlayer = new Player("new");
+
+      room.addPlayer(newPlayer);
+
+      expect(room.players).toContain(newPlayer);
+    });
+  });
+
   describe("fillDeck()", () => {
     let spy;
 
