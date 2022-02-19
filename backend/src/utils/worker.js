@@ -19,7 +19,7 @@ async function generateCard() {
       grnfilterredir: "nonredirects",
       prop: "description|pageimages|wbentityusage|info",
       piprop: "thumbnail",
-      pithumbsize: 10000,
+      pithumbsize: 500,
       pilicense: "any",
       wbeuaspect: "T",
       inprop: "url",
@@ -57,6 +57,7 @@ async function generateCard() {
       thumbnail,
       url: article.fullurl,
       wikibaseItem,
+      correct: null,
     });
 
     articles = await getArticleDates(articles);
