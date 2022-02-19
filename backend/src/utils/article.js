@@ -88,8 +88,12 @@ async function getArticleDates(articles) {
             continue;
           }
 
+          if (!claim.mainsnak.datavalue) {
+            continue;
+          }
+
           dateFound = true;
-          article.date = claim.mainsnak.datavalue.value.time;
+          article.date = parseUTC(claim.mainsnak.datavalue.value.time);
           article.timeType = propCodes[i].desc;
 
           // Nested loop breaks
@@ -110,4 +114,15 @@ async function getArticleDates(articles) {
   }
 }
 
-module.exports = { getCards, getArticleDates };
+/*
+ * Taken from https://stackoverflow.com/a/69686563
+ * Big thanks!
+ */
+function parseUTC(date) {
+  const [Y, M, D, H, m, s] = date.match(/\d+/g);
+  const sign = /^-/.test(date) ? -1 : 1;
+
+  return new Date(Date.UTC(sign * Y, M - 1, D, H, m, s));
+}
+
+module.exports = { getCards, getArticleDates, parseUTC };

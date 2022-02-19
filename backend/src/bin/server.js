@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-/**
+/*
  * Module dependencies.
  */
 require("dotenv").config();
@@ -8,45 +8,58 @@ var app = require("../app");
 var debug = require("debug")("backend:server");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const cors = require("cors");
 
-const { getCards } = require("../utils/article");
+/*
+ * Import necessary classes.
+ */
+const Player = require("../classes/Player");
+const Room = require("../classes/Room");
 
-/**
+/*
+ * Import the event handler
+ */
+const eventHandler = require("../events/handler");
+
+/*
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
-/**
+/*
+ * Setup cors.
+ */
+app.use(cors());
+
+/*
  * Create HTTP and WebSocket server.
  */
 
 var httpServer = createServer(app);
-const io = new Server(httpServer);
-/**
+const io = new Server(httpServer, {
+  cors: {
+    origin: process.env.FRONTEND_URL || "http://localhost:5005",
+  },
+});
+
+/*
  * Listen on provided port, on all network interfaces.
  */
 httpServer.listen(port);
 httpServer.on("error", onError);
 httpServer.on("listening", onListening);
+
+/*
+ * WebSocket listener
+ */
+
 io.on("connection", async (socket) => {
-  // TODO: Remove any debug when feature is mature.
-  debug(`User has joined: ${socket.id}`);
-
-  const cards = await getCards(15);
-
-  for (let i = 0; i < cards.length; i++) {
-    const card = cards[i];
-    debug(
-      `Card ${i + 1}: ${card.title}\n${card.desc}\nQuestion - ${
-        card.timeType
-      }\n`
-    );
-  }
+  eventHandler(io, socket);
 });
 
-/**
+/*
  * Normalize a port into a number, string, or false.
  */
 
@@ -66,7 +79,7 @@ function normalizePort(val) {
   return false;
 }
 
-/**
+/*
  * Event listener for HTTP server "error" event.
  */
 
@@ -92,7 +105,7 @@ function onError(error) {
   }
 }
 
-/**
+/*
  * Event listener for HTTP server "listening" event.
  */
 
