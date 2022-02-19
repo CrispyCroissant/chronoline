@@ -28,7 +28,7 @@
           <v-text-field
             autofocus
             v-model="nickname"
-            :rules="[required]"
+            :rules="[required, nameNotTaken]"
             outlined
           ></v-text-field>
         </v-form>
@@ -99,7 +99,7 @@
 <script>
 const audioClock = new Audio(require("@/assets/clockTick.mp3"));
 const audioWin = new Audio(require("@/assets/winner.mp3"));
-audioWin.volume = 0.2
+audioWin.volume = 0.2;
 
 export default {
   name: "TheDialog",
@@ -113,6 +113,7 @@ export default {
       playerAmount: 1,
       gameStarted: false,
       winner: "",
+      takenNames: [],
     };
   },
   methods: {
@@ -129,13 +130,13 @@ export default {
         this.showLoadingDialog = true;
         // Just used to hide nickname card. User is not actaully host.
         this.isHost = true;
-        this.showLoadingDialog = true;
       }
     },
     startGame() {
       audioClock.play();
       this.$socket.client.emit("startGame");
       this.gameStarted = true;
+      this.takenNames = [];
     },
     playAgain() {
       this.$socket.client.emit("resetGame");
@@ -149,6 +150,15 @@ export default {
         return !!value;
       } else {
         return "You need to provide a nickname.";
+      }
+    },
+    nameNotTaken(value) {
+      console.log(this.takenNames[0]);
+      if (this.takenNames.includes(value)) {
+        return `${value} is already taken!`;
+      } else {
+        this.formValid = true;
+        return true;
       }
     },
   },
@@ -174,6 +184,12 @@ export default {
   sockets: {
     roomConnection(playerAmount) {
       this.playerAmount = playerAmount;
+    },
+    nameTaken(data) {
+      // This shows the loading dialog
+      this.isHost = false;
+      this.showLoadingDialog = false;
+      this.takenNames.push(data.name);
     },
     initGame(roomData) {
       const { deck, table, players, currentTurn } = roomData;
