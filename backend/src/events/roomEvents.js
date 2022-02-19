@@ -33,6 +33,17 @@ function joinRoom(io, socket, data) {
     const room = socket.data.room;
     const player = new Player(nickname);
 
+    // Check if nickname is taken already
+    if (
+      room.players.find((player) => {
+        return player.nickname.toLowerCase() === nickname.toLowerCase();
+      })
+    ) {
+      socket.emit("nameTaken", { name: nickname });
+      debug(`Nickname ${nickname} is already taken.`);
+      return;
+    }
+
     socket.join(id);
     room.addPlayer(player);
 
@@ -76,7 +87,7 @@ function userDisconnect(io, socket) {
     const playerIndex = rooms[i].players.findIndex((player) => {
       return player.nickname === socket.data.nickname;
     });
-    
+
     rooms[i].players.splice(playerIndex, 1);
 
     io.to(roomId).emit("roomConnection", rooms[i].players.length);
