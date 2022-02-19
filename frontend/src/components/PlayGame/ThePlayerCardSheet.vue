@@ -21,7 +21,7 @@
             :key="card.title"
             :data="card"
             :drag-image-opacity="1"
-            :disabled="!myTurn"
+            :disabled="!dragAllowed || !myTurn"
             go-back
             @cut="onCut"
             class="col col-2"
@@ -51,6 +51,7 @@ export default {
       cards: [],
       title: "Your cards",
       draggedCard: {},
+      dragAllowed: true,
     };
   },
   computed: {
@@ -65,8 +66,10 @@ export default {
 
       if (playerName === this.$store.state.nickname) {
         this.title = "Your cards";
+        this.dragAllowed = true;
       } else {
         this.title = `${playerName}'s cards`;
+        this.dragAllowed = false;
       }
     },
     getCards(name) {
