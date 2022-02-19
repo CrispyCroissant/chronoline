@@ -125,4 +125,4 @@ function parseUTC(date) {
   return new Date(Date.UTC(sign * Y, M - 1, D, H, m, s));
 }
 
-module.exports = { getCards, getArticleDates };
+module.exports = { getCards, getArticleDates, parseUTC };
