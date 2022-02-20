@@ -41,6 +41,10 @@ export default {
       next();
     }
   },
+  beforeRouteLeave(_, __, next) {
+    this.$socket.client.emit("leaveRoom");
+    next();
+  },
   methods: {
     checkRoom() {
       const roomId = this.$route.params.id;
