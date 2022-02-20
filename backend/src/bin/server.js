@@ -1,38 +1,55 @@
 #!/usr/bin/env node
 
-/**
+/*
  * Module dependencies.
  */
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 var app = require("../app");
 var debug = require("debug")("backend:server");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
-/**
+/*
+ * Import the event handler
+ */
+const eventHandler = require("../events/handler");
+
+/*
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
-/**
+/*
  * Create HTTP and WebSocket server.
  */
 
 var httpServer = createServer(app);
-const io = new Server(httpServer);
-/**
+const io = new Server(httpServer, {
+  cors: {
+    origin: process.env.FRONTEND_URL || "http://localhost:5005",
+  },
+});
+
+/*
  * Listen on provided port, on all network interfaces.
  */
 httpServer.listen(port);
 httpServer.on("error", onError);
 httpServer.on("listening", onListening);
-io.on("connection", (socket) => {
-  debug(`User has joined: ${socket.id}`);
+
+/*
+ * WebSocket listener
+ */
+
+io.on("connection", async (socket) => {
+  eventHandler(io, socket);
 });
 
-/**
+/*
  * Normalize a port into a number, string, or false.
  */
 
@@ -52,7 +69,7 @@ function normalizePort(val) {
   return false;
 }
 
-/**
+/*
  * Event listener for HTTP server "error" event.
  */
 
@@ -78,7 +95,7 @@ function onError(error) {
   }
 }
 
-/**
+/*
  * Event listener for HTTP server "listening" event.
  */
 

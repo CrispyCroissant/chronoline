@@ -1,0 +1,104 @@
+<template>
+  <v-sheet class="pa-10 pt-3" width="100%" elevation="5" v-if="render">
+    <v-row justify="center" ref="titleRow">
+      <v-col cols="12" class="d-flex justify-end pa-0">
+        <v-btn icon small ref="sizeBtn" @click.native="minimized = !minimized">
+          <v-icon v-if="!minimized" color="accent">mdi-chevron-down</v-icon>
+          <v-icon v-if="minimized" color="accent">mdi-chevron-up</v-icon>
+        </v-btn>
+      </v-col>
+      <h2 class="text-h4 mb-5 font-weight-bold onyx--text">{{ title }}</h2>
+    </v-row>
+    <v-expand-transition>
+      <div v-show="!minimized">
+        <v-row justify="space-around" align="center" ref="sheetContent">
+          <v-col cols="1">
+            <ThePlayersMenu @changePlayer="changePlayer" />
+          </v-col>
+          <v-spacer></v-spacer>
+          <drag
+            v-for="card in cards"
+            :key="card.title"
+            :data="card"
+            :drag-image-opacity="1"
+            :disabled="!dragAllowed || !myTurn"
+            go-back
+            @cut="onCut"
+            class="col col-2"
+          >
+            <v-col cols="2">
+              <PlayerCard :card="card" class="mx-2" ref="sheetCards" />
+            </v-col>
+          </drag>
+        </v-row>
+      </div>
+    </v-expand-transition>
+  </v-sheet>
+</template>
+
+<script>
+import ThePlayersMenu from "./ThePlayersMenu.vue";
+import PlayerCard from "./PlayingCard.vue";
+import { Drag } from "vue-easy-dnd";
+
+export default {
+  components: { PlayerCard, ThePlayersMenu, Drag },
+  name: "ThePlayerCardSheet",
+  data() {
+    return {
+      render: false,
+      minimized: false,
+      cards: [],
+      title: "Your cards",
+      draggedCard: {},
+      dragAllowed: true,
+    };
+  },
+  computed: {
+    myTurn() {
+      return this.$store.getters.isYourTurn;
+    },
+  },
+  methods: {
+    //TODO: Write tests for these methods
+    changePlayer(playerName) {
+      this.getCards(playerName);
+
+      if (playerName === this.$store.state.nickname) {
+        this.title = "Your cards";
+        this.dragAllowed = true;
+      } else {
+        this.title = `${playerName}'s cards`;
+        this.dragAllowed = false;
+      }
+    },
+    getCards(name) {
+      this.cards = this.$store.getters.playersCards(name);
+    },
+    onCut(e) {
+      const i = this.cards.findIndex((card) => {
+        return card === e.data;
+      });
+      this.cards.splice(i, 1);
+    },
+  },
+  sockets: {
+    initGame() {
+      this.render = true;
+      this.getCards(this.$store.state.nickname);
+    },
+    playerUpdate() {
+      this.getCards(this.$store.state.nickname);
+    },
+  },
+};
+</script>
+
+<style scoped>
+.hide {
+  visibility: hidden;
+}
+.show {
+  visibility: visible;
+}
+</style>

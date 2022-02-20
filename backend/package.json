@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node src/bin/www",
-    "dev": "nodemon src/bin/www",
+    "start": "node src/bin/server.js",
+    "dev": "nodemon src/bin/server.js",
     "test": "jest --silent"
   },
   "dependencies": {
     "axios": "^0.25.0",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
