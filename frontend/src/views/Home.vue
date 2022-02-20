@@ -10,7 +10,7 @@
       <v-img
         src="@/assets/banner.png"
         contain
-        height="18rem"
+        height="20rem"
         class="pa-0 ma-0"
       ></v-img>
     </v-row>
