@@ -11,12 +11,6 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 
 /*
- * Import necessary classes.
- */
-const Player = require("../classes/Player");
-const Room = require("../classes/Room");
-
-/*
  * Import the event handler
  */
 const eventHandler = require("../events/handler");
