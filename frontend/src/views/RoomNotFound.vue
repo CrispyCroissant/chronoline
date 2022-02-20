@@ -13,10 +13,10 @@
         </v-icon>
       </v-row>
       <v-row justify="center" align="start">
-        <h1 class="text-h1 onyx--text">Sorry,</h1>
+        <h1 class="text-h2 onyx--text mt-5">Sorry,</h1>
       </v-row>
       <v-row justify="center" align="start">
-        <p class="text-h3 text-center onyx--text">that room doesn't exist!</p>
+        <p class="text-h4 text-center onyx--text">that room doesn't exist!</p>
       </v-row>
       <v-row justify="center">
         <v-btn x-large color="success" ref="homeBtn" @click.native="goHome">
