@@ -7,7 +7,7 @@
       ref="snackbar"
       absolute
       class="snackbar"
-      color="info"
+      color="accent"
     >
       Link Copied!
     </v-snackbar>
@@ -18,7 +18,7 @@
       @keydown.enter.prevent="joinRoom"
       ref="nicknameDialog"
     >
-      <v-card-title class="text-h5 white--text accent d-flex justify-center">
+      <v-card-title class="text-h5 white--text primary d-flex justify-center">
         Before you play...
       </v-card-title>
       <v-card-text
@@ -44,7 +44,7 @@
 
     <v-expand-transition>
       <v-card v-if="showLoadingDialog && isHost" ref="loadDialog">
-        <v-card-title class="text-h5 white--text accent d-flex justify-center">
+        <v-card-title class="text-h5 white--text primary d-flex justify-center">
           {{ loadingTitle }}
         </v-card-title>
         <v-card-text
@@ -235,6 +235,6 @@ export default {
   cursor: pointer;
 }
 .snackbar {
-  bottom: 51%;
+  bottom: 50%;
 }
 </style>
