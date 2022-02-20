@@ -4,9 +4,10 @@
       v-model="showSnackbar"
       timeout="1300"
       rounded="lg"
-      centered
-      class="mb-15"
       ref="snackbar"
+      absolute
+      class="snackbar"
+      color="info"
     >
       Link Copied!
     </v-snackbar>
@@ -232,5 +233,8 @@ export default {
 <style scoped>
 .clickable {
   cursor: pointer;
+}
+.snackbar {
+  bottom: 51%;
 }
 </style>
