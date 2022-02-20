@@ -154,7 +154,6 @@ export default {
       }
     },
     nameNotTaken(value) {
-      console.log(this.takenNames[0]);
       if (this.takenNames.includes(value)) {
         return `${value} is already taken!`;
       } else {
