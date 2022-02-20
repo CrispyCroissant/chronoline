@@ -11,7 +11,7 @@
         src="@/assets/banner.png"
         contain
         height="20rem"
-        class="pa-0 ma-0"
+        class="pa-0 mr-14"
       ></v-img>
     </v-row>
     <v-row align="center" class="d-flex flex-column">
