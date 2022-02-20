@@ -4,9 +4,10 @@
       v-model="showSnackbar"
       timeout="1300"
       rounded="lg"
-      centered
-      class="mb-15"
       ref="snackbar"
+      absolute
+      class="snackbar"
+      color="accent"
     >
       Link Copied!
     </v-snackbar>
@@ -17,7 +18,7 @@
       @keydown.enter.prevent="joinRoom"
       ref="nicknameDialog"
     >
-      <v-card-title class="text-h5 white--text accent d-flex justify-center">
+      <v-card-title class="text-h5 white--text primary d-flex justify-center">
         Before you play...
       </v-card-title>
       <v-card-text
@@ -43,7 +44,7 @@
 
     <v-expand-transition>
       <v-card v-if="showLoadingDialog && isHost" ref="loadDialog">
-        <v-card-title class="text-h5 white--text accent d-flex justify-center">
+        <v-card-title class="text-h5 white--text primary d-flex justify-center">
           {{ loadingTitle }}
         </v-card-title>
         <v-card-text
@@ -153,7 +154,6 @@ export default {
       }
     },
     nameNotTaken(value) {
-      console.log(this.takenNames[0]);
       if (this.takenNames.includes(value)) {
         return `${value} is already taken!`;
       } else {
@@ -232,5 +232,8 @@ export default {
 <style scoped>
 .clickable {
   cursor: pointer;
+}
+.snackbar {
+  bottom: 50%;
 }
 </style>
