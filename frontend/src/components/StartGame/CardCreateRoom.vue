@@ -39,17 +39,7 @@
             ></v-text-field>
           </v-form>
         </v-row>
-        <v-row class="d-flex flex-column mb-15" align="center">
-          <v-col class="d-flex justify-left px-0">
-            <h3 class="text-body-1 mb-3">Best of?</h3>
-          </v-col>
-          <v-btn-toggle mandatory>
-            <v-btn :disabled="$socket.disconnected" color="accent">One</v-btn>
-            <v-btn :disabled="$socket.disconnected" color="accent">Two</v-btn>
-            <v-btn :disabled="$socket.disconnected" color="accent">Three</v-btn>
-          </v-btn-toggle>
-        </v-row>
-        <v-row justify="center" class="mt-16">
+        <v-row justify="center" class="mt-10">
           <v-btn
             x-large
             color="primary"
