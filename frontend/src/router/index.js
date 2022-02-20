@@ -7,6 +7,8 @@ import RoomNotFound from "../views/RoomNotFound.vue";
 
 Vue.use(VueRouter);
 
+const DEFAULT_TITLE = "Chronoline";
+
 const routes = [
   {
     path: "/",
@@ -18,19 +20,19 @@ const routes = [
     path: "/start",
     name: "StartGame",
     component: StartGame,
-    meta: { hasFooter: true },
+    meta: { hasFooter: true, pageTitle: `${DEFAULT_TITLE} | Create room` },
   },
   {
     path: "/play/:id?",
     name: "PlayGame",
     component: PlayGame,
-    meta: { hasFooter: false },
+    meta: { hasFooter: false, pageTitle: `${DEFAULT_TITLE} | In game` },
   },
   {
     path: "/no-room",
     name: "RoomNotFound",
     component: RoomNotFound,
-    meta: { hasFooter: true },
+    meta: { hasFooter: true, pageTitle: `${DEFAULT_TITLE} | No room` },
   },
 ];
 
@@ -38,6 +40,13 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, _, next) => {
+  Vue.nextTick(() => {
+    document.title = to.meta.pageTitle || "Chronoline";
+    next();
+  });
 });
 
 export default router;
