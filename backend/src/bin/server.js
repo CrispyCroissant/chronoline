@@ -8,7 +8,6 @@ var app = require("../app");
 var debug = require("debug")("backend:server");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
-const cors = require("cors");
 
 /*
  * Import the event handler
@@ -21,11 +20,6 @@ const eventHandler = require("../events/handler");
 
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
-
-/*
- * Setup cors.
- */
-app.use(cors());
 
 /*
  * Create HTTP and WebSocket server.
