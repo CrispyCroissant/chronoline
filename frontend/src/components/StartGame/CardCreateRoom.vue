@@ -1,8 +1,10 @@
 <template>
   <v-row class="d-flex flex-column" @keydown.enter.prevent="goToRoom">
     <v-row justify="center" class="d-flex flex-column my-5">
-      <h1 class="text-md-h1 text-h2 text-center onyx--text">Chronoline</h1>
-      <h3 class="text-subtitle text-center my-5 mx-md-0 mx-10 onyx--text">
+      <h1 class="title text-md-h1 text-h2 text-center onyx--text">
+        Chronoline
+      </h1>
+      <h3 class="text-subtitle-1 text-center my-5 mx-md-0 mx-10 onyx--text">
         The classic board game now playable online with friends!
       </h3>
     </v-row>
@@ -104,4 +106,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap");
+
+.title {
+  font-family: "Josefin Sans", sans-serif !important;
+}
+</style>
