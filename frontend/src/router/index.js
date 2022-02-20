@@ -26,7 +26,7 @@ const routes = [
     path: "/play/:id?",
     name: "PlayGame",
     component: PlayGame,
-    meta: { hasFooter: false, pageTitle: `${DEFAULT_TITLE} | In game` },
+    meta: { hasFooter: false, pageTitle: `${DEFAULT_TITLE} | Playing...` },
   },
   {
     path: "/no-room",
