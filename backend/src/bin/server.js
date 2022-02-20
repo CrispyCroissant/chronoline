@@ -3,7 +3,9 @@
 /*
  * Module dependencies.
  */
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 var app = require("../app");
 var debug = require("debug")("backend:server");
 const { createServer } = require("http");
