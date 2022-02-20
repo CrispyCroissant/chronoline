@@ -28,7 +28,7 @@ async function startGame(io, socket) {
   debug("Room initialized");
 }
 
-function playCard(io, socket, data) {
+async function playCard(io, socket, data) {
   const { card, index } = data;
   const { room, player } = socket.data;
 
@@ -56,6 +56,12 @@ function playCard(io, socket, data) {
   }
 
   io.to(room.id).emit("nextTurn", { currentTurn: room.currentTurn });
+
+  // Fetch more cards
+  if (room.deck.length === 3) {
+    await room.fillDeck(15);
+    debug(`Room '${room.id}' refilled its deck`);
+  }
 }
 
 module.exports = { resetGame, startGame, playCard };
