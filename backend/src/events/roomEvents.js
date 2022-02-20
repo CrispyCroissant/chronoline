@@ -74,33 +74,37 @@ function roomExists(socket, data) {
 }
 
 function userDisconnect(io, socket) {
+  const { player, room } = socket.data;
   const roomId = [...socket.rooms.values()][1];
 
+  if (!player) return;
   if (!roomId) return;
+
+  const nickname = player.nickname;
 
   const i = rooms.findIndex((room) => {
     return room.id === roomId;
   });
 
-  if (socket.data.nickname) {
+  if (nickname) {
     // Remove player from local rooms storage.
     const playerIndex = rooms[i].players.findIndex((player) => {
-      return player.nickname === socket.data.nickname;
+      return player.nickname === nickname;
     });
 
     rooms[i].players.splice(playerIndex, 1);
 
     io.to(roomId).emit("roomConnection", rooms[i].players.length);
 
-    debug(
-      `User "${socket.data.nickname}" disconnected from "${socket.data.room.id}"`
-    );
+    debug(`User "${nickname}" disconnected from "${room.id}"`);
   }
 
   if (io.sockets.adapter.rooms.get(roomId).size === 1) {
     rooms.splice(i, 1);
     debug(`Room "${roomId}" was destroyed.`);
   }
+
+  socket.data = {};
 }
 
 module.exports = { createRoom, joinRoom, roomExists, userDisconnect };
