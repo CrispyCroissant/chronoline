@@ -82,9 +82,9 @@ async function generateCard() {
 function removeYear(string) {
   const parantStart = string.indexOf("(");
   const parantEnd = string.indexOf(")");
-  const hasParanthesis = parantStart != -1 && parantEnd != -1;
+  const hasParenthesis = parantStart != -1 && parantEnd != -1;
 
-  if (hasParanthesis) {
+  if (hasParenthesis) {
     const hasNumber = /\d/.test(string);
 
     if (hasNumber) {
