@@ -6,7 +6,7 @@ generateCard();
 
 async function generateCard() {
   const wikipediaURL = "https://en.wikipedia.org/w/api.php";
-  const articlesPerRequest = 80;
+  const articlesPerRequest = 30;
   let articles = [];
 
   const res = await axios.get(wikipediaURL, {
@@ -17,12 +17,13 @@ async function generateCard() {
       grnlimit: articlesPerRequest,
       grnnamespace: 0,
       grnfilterredir: "nonredirects",
-      prop: "description|pageimages|wbentityusage|info",
+      prop: "description|pageimages|wbentityusage|info|iwlinks",
       piprop: "thumbnail",
       pithumbsize: 500,
       pilicense: "any",
       wbeuaspect: "T",
       inprop: "url",
+      iwlimit: "max",
     },
     headers: {
       "Accept-Encoding": "gzip",
@@ -36,6 +37,7 @@ async function generateCard() {
    * entry.
    */
   for (let i = 0; i < Object.keys(data).length; i++) {
+    const isLastArticle = i === articlesPerRequest - 1;
     const article = data[Object.keys(data)[i]];
 
     const desc = article.description;
@@ -43,9 +45,15 @@ async function generateCard() {
     const wikibaseItem = article.wbentityusage
       ? Object.keys(article.wbentityusage)[0]
       : null;
+    const wikiLinks = article.iwlinks;
 
-    if (!desc || !thumbnail || !wikibaseItem) {
-      if (i === articlesPerRequest - 1) {
+    if (!desc || !thumbnail || !wikibaseItem || !wikiLinks) {
+      if (isLastArticle) await generateCard();
+      continue;
+    }
+
+    if (wikiLinks.length < 3) {
+      if (isLastArticle) {
         await generateCard();
       }
       continue;
@@ -64,7 +72,9 @@ async function generateCard() {
 
     if (articles.length !== 0) {
       parentPort.postMessage(articles[0]);
-      return;
+      articles = [];
     }
+
+    if (isLastArticle) await generateCard();
   }
 }
