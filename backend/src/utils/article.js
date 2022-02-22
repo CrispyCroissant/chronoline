@@ -130,7 +130,6 @@ function parseUTC(date) {
   const invalidDate = dateInstance instanceof Date && isNaN(dateInstance);
 
   if (invalidDate) {
-    console.log(`Removed date '${date}'`);
     throw new Error("Date is invalid!");
   }
 
