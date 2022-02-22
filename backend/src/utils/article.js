@@ -18,7 +18,7 @@ const propCodes = [
 
 async function getCards(amount) {
   return new Promise((resolve) => {
-    const maxWorkers = amount * 3 > 50 ? 50 : amount * 3;
+    const maxWorkers = 60;
     let articles = [];
     let workers = [];
 
@@ -27,8 +27,6 @@ async function getCards(amount) {
       workers.push(worker);
 
       worker.on("message", async (article) => {
-        worker.terminate();
-
         articles.push(article);
 
         if (articles.length === amount) {
