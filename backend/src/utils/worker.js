@@ -60,8 +60,8 @@ async function generateCard() {
     }
 
     articles.push({
-      title: article.title,
-      desc,
+      title: removeYear(article.title),
+      desc: removeYear(desc),
       thumbnail,
       url: article.fullurl,
       wikibaseItem,
@@ -77,4 +77,20 @@ async function generateCard() {
 
     if (isLastArticle) await generateCard();
   }
+}
+
+function removeYear(string) {
+  const parantStart = string.indexOf("(");
+  const parantEnd = string.indexOf(")");
+  const hasParanthesis = parantStart != -1 && parantEnd != -1;
+
+  if (hasParanthesis) {
+    const hasNumber = /\d/.test(string);
+
+    if (hasNumber) {
+      return string.replace(string.slice(parantStart, parantEnd + 1), "");
+    }
+  }
+
+  return string;
 }
