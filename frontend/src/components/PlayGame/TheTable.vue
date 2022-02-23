@@ -1,12 +1,13 @@
 <template>
   <v-sheet
+    v-if="render"
     class="px-10 py-16"
     color="onyx"
     elevation="4"
     rounded="xl"
     width="98%"
   >
-    <v-row v-if="render">
+    <v-row>
       <drop-list
         :items="cards"
         @insert="onDrop"
