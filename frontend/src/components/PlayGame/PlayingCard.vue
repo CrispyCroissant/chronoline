@@ -14,7 +14,7 @@
         {{ card.title }}
       </p>
     </v-sheet>
-    <v-row justify="center" class="mx-0" style="background: #fff">
+    <v-row justify="center" class="white-bg mx-0">
       <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
         {{ card.timeType }}
       </p>
@@ -24,7 +24,7 @@
         max-width="100%"
         position="75% 25%"
         :gradient="imageOverlay"
-        style="background: #fff"
+        class="white-bg"
       />
     </v-row>
     <v-row justify="center" class="mx-0">
@@ -117,5 +117,8 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.white-bg {
+  background: #fff;
 }
 </style>
