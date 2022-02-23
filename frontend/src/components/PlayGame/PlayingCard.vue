@@ -24,6 +24,7 @@
         max-width="100%"
         position="75% 25%"
         :gradient="imageOverlay"
+        style="background: #fff"
       />
     </v-row>
     <v-row justify="center" class="mx-0">
