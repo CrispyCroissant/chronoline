@@ -118,7 +118,6 @@ export default {
   transition-property: margin, opacity;
 }
 .hovered {
-  position: absolute;
   margin: -1rem 0;
   z-index: 1;
 }
