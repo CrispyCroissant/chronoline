@@ -99,7 +99,6 @@
 </template>
 
 <script>
-const audioClock = new Audio(require("@/assets/clockTick.mp3"));
 const audioWin = new Audio(require("@/assets/winner.mp3"));
 audioWin.volume = 0.2;
 
@@ -135,7 +134,6 @@ export default {
       }
     },
     startGame() {
-      audioClock.play();
       this.$socket.client.emit("startGame");
       this.gameStarted = true;
       this.takenNames = [];
@@ -200,15 +198,11 @@ export default {
       this.$store.commit("setPlayers", players);
       this.$store.commit("setCurrentTurn", currentTurn);
       this.dialog = false;
-
-      audioClock.pause();
-      audioClock.currentTime = 0;
     },
     startLoadingGame() {
       this.gameStarted = true;
       this.showLoadingDialog = true;
       this.winner = "";
-      audioClock.play();
     },
     gameFinished(player) {
       this.showLoadingDialog = false;
