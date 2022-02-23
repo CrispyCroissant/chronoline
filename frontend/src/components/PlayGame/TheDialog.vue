@@ -2,14 +2,14 @@
   <v-dialog persistent v-model="dialog" max-width="20rem">
     <v-snackbar
       v-model="showSnackbar"
-      timeout="1300"
-      rounded="lg"
-      ref="snackbar"
-      absolute
       class="snackbar"
-      color="accent"
+      timeout="2500"
+      ref="success"
+      color="success"
+      top
+      content-class="text-center"
     >
-      Link Copied!
+      Link copied!
     </v-snackbar>
 
     <!-- TODO: Refactor all cards into their own components. -->
@@ -60,7 +60,7 @@
             <p class="text-body-2">{{ playerAmount }} players have joined</p>
           </div>
           <v-progress-linear
-            v-if="playerAmount <= 1 || gameStarted"
+            v-if="gameStarted"
             indeterminate
             color="primary"
             class="mt-1"
@@ -234,8 +234,5 @@ export default {
 <style scoped>
 .clickable {
   cursor: pointer;
-}
-.snackbar {
-  bottom: 50%;
 }
 </style>
