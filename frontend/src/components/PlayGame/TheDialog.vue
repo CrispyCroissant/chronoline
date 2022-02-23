@@ -6,7 +6,6 @@
       timeout="2500"
       ref="success"
       color="success"
-      top
       content-class="text-center"
     >
       Link copied!
