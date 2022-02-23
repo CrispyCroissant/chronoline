@@ -16,7 +16,7 @@
         :drag-image-opacity="0"
       >
         <template v-slot:item="{ item, index }">
-          <v-col cols="1" :key="item.title" class="my-2">
+          <v-col cols="auto" :key="item.title">
             <PlayingCard
               :card="item"
               :onTable="true"
@@ -28,7 +28,7 @@
           </v-col>
         </template>
         <template v-slot:feedback="{ data }">
-          <v-col cols="1" :key="data.title" class="my-2">
+          <v-col cols="auto" :key="data.title">
             <PlayingCard :card="data" />
           </v-col>
         </template>
