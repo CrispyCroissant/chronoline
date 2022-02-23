@@ -48,6 +48,8 @@
             go-back
             @cut="onCut"
             class="col auto d-flex justify-center"
+            @dragstart="hide($event)"
+            @dragend="show($event)"
           >
             <PlayerCard
               :card="card"
@@ -109,6 +111,15 @@ export default {
     },
     setSheetWidth() {
       this.sheetWidth = this.$refs.cardSheet.$el.clientWidth;
+    },
+    hide(event) {
+      // This timeout ensures the ghost image can be use the card before it's is hidden.
+      setTimeout(() => {
+        event.source.$el.children[0].classList.add("hide");
+      }, 1);
+    },
+    show(event) {
+      event.source.$el.children[0].classList.remove("hide");
     },
   },
   sockets: {

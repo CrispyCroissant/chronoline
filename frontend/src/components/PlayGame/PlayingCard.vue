@@ -132,4 +132,7 @@ export default {
 .white-bg {
   background: #fff;
 }
+.hide {
+  visibility: hidden !important;
+}
 </style>

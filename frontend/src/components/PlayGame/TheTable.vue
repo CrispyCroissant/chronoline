@@ -29,7 +29,7 @@
         </template>
         <template v-slot:feedback="{ data }">
           <v-col cols="auto" :key="data.title">
-            <PlayingCard :card="data" />
+            <PlayingCard :card="data" style="visibility: hidden;" />
           </v-col>
         </template>
       </drop-list>
