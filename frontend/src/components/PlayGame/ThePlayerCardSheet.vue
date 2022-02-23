@@ -49,7 +49,12 @@
             @cut="onCut"
             class="col auto d-flex justify-center"
           >
-            <PlayerCard :card="card" class="mx-3" ref="sheetCards" />
+            <PlayerCard
+              :card="card"
+              :greyedOut="!myTurn"
+              class="mx-3"
+              ref="sheetCards"
+            />
           </drag>
         </v-row>
       </div>
