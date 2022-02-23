@@ -50,20 +50,22 @@
         <v-card-text
           class="mt-5 d-flex flex-column align-center justify-center"
         >
-          <div class="clickable" @click="copyToClipBoard()">
-            <v-icon class="mr-1">mdi-link</v-icon>
-            {{ currentURL }}
+          <div class="clickable d-flex align-center" @click="copyToClipBoard()">
+            <v-icon left>mdi-link</v-icon>
+            <p class="text-caption ma-0">
+              {{ currentURL }}
+            </p>
           </div>
-          <v-progress-circular
+          <div class="mt-6">
+            <p class="text-body-2">{{ playerAmount }} players have joined</p>
+          </div>
+          <v-progress-linear
             v-if="playerAmount <= 1 || gameStarted"
             indeterminate
             color="primary"
-            class="mt-5"
+            class="mt-1"
             ref="loadingAnim"
-          ></v-progress-circular>
-          <div class="mt-5">
-            <p class="text-caption">{{ playerAmount }} players have joined</p>
-          </div>
+          ></v-progress-linear>
           <v-expand-transition mode="out-in">
             <v-btn
               v-if="playerAmount > 1 && !gameStarted"
