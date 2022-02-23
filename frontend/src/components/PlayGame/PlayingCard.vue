@@ -7,6 +7,7 @@
     height="11.5rem"
     @click="displayYear"
     v-if="card"
+    :color="greyedOut ? 'grey' : undefined"
   >
     <v-sheet :color="titleColor" rounded="lg b-0" class="ma-0 px-3 py-2">
       <p class="no-wrap text-caption text-center white--text">
@@ -22,6 +23,7 @@
         height="5rem"
         max-width="100%"
         position="75% 25%"
+        :gradient="imageOverlay"
       />
     </v-row>
     <v-row justify="center" class="mx-0">
@@ -60,7 +62,7 @@
 <script>
 export default {
   name: "PlayingCard",
-  props: ["card", "onTable"],
+  props: ["card", "onTable", "greyedOut"],
   data() {
     return {
       showYear: true,
@@ -76,16 +78,19 @@ export default {
   },
   computed: {
     yearColor() {
-      if (this.card.correct === false) {
-        return "error";
-      }
+      if (this.card.correct === false) return "error";
       return "success";
     },
     titleColor() {
-      if (this.onTable) {
-        return "secondary";
-      }
+      if (this.greyedOut) return "grey";
+      if (this.onTable) return "secondary";
       return "primary";
+    },
+    imageOverlay() {
+      if (this.greyedOut) {
+        return "rgba(232, 232, 232, 0.5), rgba(232, 232, 232, 0.5)";
+      }
+      return undefined;
     },
   },
   filters: {
