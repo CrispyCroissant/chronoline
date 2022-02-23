@@ -14,7 +14,7 @@
         {{ card.title }}
       </p>
     </v-sheet>
-    <v-row justify="center" class="white-bg mx-0">
+    <v-row justify="center" class="flex-column white-bg mx-0">
       <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
         {{ card.timeType }}
       </p>
@@ -25,7 +25,18 @@
         position="75% 25%"
         :gradient="imageOverlay"
         class="white-bg"
-      />
+      >
+        <template #placeholder>
+          <v-row
+            class="ma-0"
+            justify="center"
+            align="center"
+            style="height: 100%"
+          >
+            <v-progress-circular color="accent" indeterminate />
+          </v-row>
+        </template>
+      </v-img>
     </v-row>
     <v-row justify="center" class="mx-0">
       <v-expand-transition>
