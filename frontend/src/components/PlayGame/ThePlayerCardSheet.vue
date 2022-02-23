@@ -23,7 +23,10 @@
           <v-icon v-if="minimized" color="accent">mdi-chevron-up</v-icon>
         </v-btn>
       </v-col>
-      <h2 class="text-h4 mb-10 font-weight-bold onyx--text">{{ title }}</h2>
+      <h2 class="text-h4 mb-10 font-weight-bold onyx--text">
+        {{ title }}
+        <v-divider></v-divider>
+      </h2>
     </v-row>
     <v-expand-transition>
       <div v-show="!minimized">
