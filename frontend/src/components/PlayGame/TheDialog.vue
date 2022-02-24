@@ -14,43 +14,10 @@
     <!-- TODO: Refactor all cards into their own components. -->
     <DialogCardNickname :show="!isHost" @roomJoined="showLoading" />
 
-    <v-expand-transition>
-      <v-card v-if="showLoadingDialog && isHost" ref="loadDialog">
-        <v-card-title class="text-h5 white--text primary d-flex justify-center">
-          {{ loadingTitle }}
-        </v-card-title>
-        <v-card-text
-          class="mt-5 d-flex flex-column align-center justify-center"
-        >
-          <div class="clickable d-flex align-center" @click="copyToClipBoard()">
-            <v-icon left>mdi-link</v-icon>
-            <p class="text-caption ma-0">
-              {{ currentURL }}
-            </p>
-          </div>
-          <div class="mt-6">
-            <p class="text-body-2">{{ playerAmount }} players have joined</p>
-          </div>
-          <v-progress-linear
-            v-if="gameStarted"
-            indeterminate
-            color="primary"
-            class="mt-1"
-            ref="loadingAnim"
-          ></v-progress-linear>
-          <v-expand-transition mode="out-in">
-            <v-btn
-              v-if="playerAmount > 1 && !gameStarted"
-              color="primary"
-              @click.native="startGame"
-              ref="startBtn"
-            >
-              Start game
-            </v-btn>
-          </v-expand-transition>
-        </v-card-text>
-      </v-card>
-    </v-expand-transition>
+    <DialogCardLoading
+      :show="showLoadingDialog && isHost"
+      @showSnackbar="showSnackbar = true"
+    />
 
     <v-card v-if="winner">
       <v-card-title class="text-h5 white--text success d-flex justify-center">
@@ -72,13 +39,14 @@
 </template>
 
 <script>
+import DialogCardLoading from "./DialogCardLoading.vue";
 import DialogCardNickname from "./DialogCardNickname.vue";
 
 const audioWin = new Audio(require("@/assets/winner.mp3"));
 audioWin.volume = 0.2;
 
 export default {
-  components: { DialogCardNickname },
+  components: { DialogCardNickname, DialogCardLoading },
   name: "TheDialog",
   data() {
     return {
@@ -86,32 +54,15 @@ export default {
       showLoadingDialog: true,
       showSnackbar: false,
       isHost: false,
-      formValid: false,
-      playerAmount: 1,
-      gameStarted: false,
       winner: "",
     };
   },
   methods: {
-    copyToClipBoard() {
-      this.showSnackbar = true;
-      navigator.clipboard.writeText(this.currentURL);
-    },
-    startGame() {
-      this.$socket.client.emit("startGame");
-      this.gameStarted = true;
-      this.takenNames = [];
-    },
     playAgain() {
       this.$socket.client.emit("resetGame");
     },
     goHome() {
       this.$router.push({ name: "Home" });
-    },
-    startLoad() {
-      this.gameStarted = true;
-      this.showLoadingDialog = true;
-      this.winner = "";
     },
     showLoading() {
       this.showLoadingDialog = true;
@@ -119,9 +70,6 @@ export default {
     },
   },
   computed: {
-    currentURL() {
-      return process.env.VUE_APP_URL + this.$route.path;
-    },
     nickname: {
       get() {
         return this.$store.state.nickname;
@@ -130,17 +78,8 @@ export default {
         this.$store.commit("setNickname", nickname);
       },
     },
-    loadingTitle() {
-      if (this.gameStarted) {
-        return "Starting game...";
-      }
-      return "Waiting for players";
-    },
   },
   sockets: {
-    roomConnection(playerAmount) {
-      this.playerAmount = playerAmount;
-    },
     nameTaken() {
       // This shows the loading dialog
       this.isHost = false;
@@ -155,9 +94,6 @@ export default {
       this.$store.commit("setCurrentTurn", currentTurn);
       this.dialog = false;
     },
-    startLoadingGame() {
-      this.startLoad();
-    },
     gameFinished(player) {
       this.showLoadingDialog = false;
       this.dialog = true;
@@ -167,7 +103,10 @@ export default {
     },
     gameIsReset() {
       this.$socket.client.emit("startGame");
-      this.startLoad();
+    },
+    startLoadingGame() {
+      this.showLoading();
+      this.winner = "";
     },
   },
   mounted() {
@@ -178,8 +117,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.clickable {
-  cursor: pointer;
-}
-</style>
+<style scoped></style>
