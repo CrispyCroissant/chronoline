@@ -2,9 +2,9 @@ import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuetify from "vuetify";
 import VueRouter from "vue-router";
 import Vuex from "vuex";
-import TheDialog from "@/components/PlayGame/TheDialog.vue";
+import TheDialog from "@/components/PlayGame/dialog/TheDialog.vue";
 
-describe("The dialogs", () => {
+describe("The dialog", () => {
   const localVue = createLocalVue();
   localVue.use(VueRouter);
   localVue.use(Vuex);

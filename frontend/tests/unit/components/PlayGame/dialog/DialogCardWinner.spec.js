@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuetify from "vuetify";
 import VueRouter from "vue-router";
-import DialogCardWinner from "@/components/PlayGame/DialogCardWinner.vue";
+import DialogCardWinner from "@/components/PlayGame/dialog/DialogCardWinner.vue";
 
 describe("The winner card", () => {
   const localVue = createLocalVue();

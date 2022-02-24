@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuetify from "vuetify";
 import Vuex from "vuex";
-import DialogCardNickname from "@/components/PlayGame/DialogCardNickname.vue";
+import DialogCardNickname from "@/components/PlayGame/dialog/DialogCardNickname.vue";
 
 describe("The nicnkame dialog", () => {
   const localVue = createLocalVue();

@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuetify from "vuetify";
 import Vuex from "vuex";
 import VueRouter from "vue-router";
-import DialogCardLoading from "@/components/PlayGame/DialogCardLoading.vue";
+import DialogCardLoading from "@/components/PlayGame/dialog/DialogCardLoading.vue";
 
 describe("The loading card", () => {
   const localVue = createLocalVue();
