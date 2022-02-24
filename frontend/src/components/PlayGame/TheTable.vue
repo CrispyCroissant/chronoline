@@ -14,8 +14,6 @@
             <PlayingCard
               :card="item"
               :onTable="true"
-              @mouseover.native="addHover(index)"
-              @mouseleave.native="removeHover(index)"
               class="fade"
               :ref="'card' + index"
             />
@@ -50,31 +48,6 @@ export default {
       this.$store.commit("setCardOnTable", { card: data, index });
       this.$socket.client.emit("playCard", { card: data, index });
     },
-    addHover(index) {
-      // TODO: Don't add hover effect is mouse is clicked.
-      if (this.cards.length === 1) {
-        return;
-      }
-
-      for (let i = 0; i < this.cards.length; i++) {
-        if (i === index) continue;
-        const card = this.$refs[`card${i}`].$el;
-        card.classList.add("transparent");
-      }
-      this.$refs[`card${index}`].$el.classList.add("hovered");
-    },
-    removeHover(index) {
-      if (this.cards.length === 1) {
-        return;
-      }
-
-      for (let i = 0; i < this.cards.length; i++) {
-        if (i === index) continue;
-        const card = this.$refs[`card${i}`].$el;
-        card.classList.remove("transparent");
-      }
-      this.$refs[`card${index}`].$el.classList.remove("hovered");
-    },
   },
   computed: {
     cards() {
@@ -106,17 +79,5 @@ export default {
 <style scoped>
 .drop-list {
   width: 100%;
-}
-.fade {
-  transition: all 0.3s ease-out;
-  transition-property: margin, opacity;
-}
-.hovered {
-  margin: -1rem 0;
-  z-index: 1;
-}
-.transparent {
-  opacity: 5%;
-  z-index: 0;
 }
 </style>
