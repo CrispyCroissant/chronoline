@@ -113,7 +113,7 @@ export default {
       this.sheetWidth = this.$refs.cardSheet.$el.clientWidth;
     },
     hide(event) {
-      // This timeout ensures the ghost image can be use the card before it's is hidden.
+      // This timeout ensures the ghost image can use the card before it's hidden.
       setTimeout(() => {
         event.source.$el.children[0].classList.add("hide");
       }, 1);
