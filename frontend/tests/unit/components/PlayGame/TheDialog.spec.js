@@ -153,34 +153,4 @@ describe("The dialogs", () => {
       expect(loading.exists()).toBe(true);
     });
   });
-
-  describe("the nickname dialog", () => {
-    it("shows the card if user is NOT a host", () => {
-      const card = wrapper.findComponent({ ref: "nicknameDialog" });
-
-      expect(card.exists()).toBe(true);
-    });
-
-    it("does NOT show the card if user is a host", async () => {
-      await wrapper.setData({ isHost: true });
-
-      const card = wrapper.findComponent({ ref: "nicknameDialog" });
-
-      expect(card.exists()).toBe(false);
-    });
-
-    it("joins the socket room upon clicking the play button", async () => {
-      const spy = jest.spyOn(wrapper.vm, "joinRoom").mockResolvedValueOnce();
-
-      await wrapper.findComponent({ ref: "playBtn" }).trigger("click");
-
-      expect(spy).toBeCalledTimes(1);
-    });
-
-    it("shows an error in the input field if no nickname was provided", async () => {
-      const returnedVal = wrapper.vm.required();
-
-      expect(typeof returnedVal).toBe("string");
-    });
-  });
 });

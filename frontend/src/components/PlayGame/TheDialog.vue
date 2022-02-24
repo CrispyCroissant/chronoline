@@ -12,34 +12,7 @@
     </v-snackbar>
 
     <!-- TODO: Refactor all cards into their own components. -->
-    <v-card
-      v-if="!isHost"
-      @keydown.enter.prevent="joinRoom"
-      ref="nicknameDialog"
-    >
-      <v-card-title class="text-h5 white--text primary d-flex justify-center">
-        Before you play...
-      </v-card-title>
-      <v-card-text
-        class="mt-10 text-center d-flex flex-column align-center justify-center"
-      >
-        <p class="text-body-1">Enter a nickname</p>
-        <v-form>
-          <v-text-field
-            autofocus
-            v-model="nickname"
-            :rules="[required, nameNotTaken]"
-            outlined
-          ></v-text-field>
-        </v-form>
-      </v-card-text>
-      <v-divider></v-divider>
-      <v-card-actions class="d-flex justify-center">
-        <v-btn color="primary" text @click.native="joinRoom" ref="playBtn">
-          Play
-        </v-btn>
-      </v-card-actions>
-    </v-card>
+    <DialogCardNickname :show="!isHost" @roomJoined="showLoading" />
 
     <v-expand-transition>
       <v-card v-if="showLoadingDialog && isHost" ref="loadDialog">
@@ -99,10 +72,13 @@
 </template>
 
 <script>
+import DialogCardNickname from "./DialogCardNickname.vue";
+
 const audioWin = new Audio(require("@/assets/winner.mp3"));
 audioWin.volume = 0.2;
 
 export default {
+  components: { DialogCardNickname },
   name: "TheDialog",
   data() {
     return {
@@ -114,24 +90,12 @@ export default {
       playerAmount: 1,
       gameStarted: false,
       winner: "",
-      takenNames: [],
     };
   },
   methods: {
     copyToClipBoard() {
       this.showSnackbar = true;
       navigator.clipboard.writeText(this.currentURL);
-    },
-    joinRoom() {
-      if (this.formValid) {
-        const nickname = this.$store.state.nickname;
-        const roomId = this.$route.params.id;
-
-        this.$socket.client.emit("joinRoom", { nickname, id: roomId });
-        this.showLoadingDialog = true;
-        // Just used to hide nickname card. User is not actaully host.
-        this.isHost = true;
-      }
     },
     startGame() {
       this.$socket.client.emit("startGame");
@@ -144,26 +108,14 @@ export default {
     goHome() {
       this.$router.push({ name: "Home" });
     },
-    required(value) {
-      if (value) {
-        this.formValid = true;
-        return !!value;
-      } else {
-        return "You need to provide a nickname.";
-      }
-    },
-    nameNotTaken(value) {
-      if (this.takenNames.includes(value)) {
-        return `${value} is already taken!`;
-      } else {
-        this.formValid = true;
-        return true;
-      }
-    },
     startLoad() {
       this.gameStarted = true;
       this.showLoadingDialog = true;
       this.winner = "";
+    },
+    showLoading() {
+      this.showLoadingDialog = true;
+      this.isHost = true;
     },
   },
   computed: {
@@ -189,11 +141,10 @@ export default {
     roomConnection(playerAmount) {
       this.playerAmount = playerAmount;
     },
-    nameTaken(data) {
+    nameTaken() {
       // This shows the loading dialog
       this.isHost = false;
       this.showLoadingDialog = false;
-      this.takenNames.push(data.name);
     },
     initGame(roomData) {
       const { deck, table, players, currentTurn } = roomData;
