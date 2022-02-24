@@ -160,6 +160,11 @@ export default {
         return true;
       }
     },
+    startLoad() {
+      this.gameStarted = true;
+      this.showLoadingDialog = true;
+      this.winner = "";
+    },
   },
   computed: {
     currentURL() {
@@ -200,9 +205,7 @@ export default {
       this.dialog = false;
     },
     startLoadingGame() {
-      this.gameStarted = true;
-      this.showLoadingDialog = true;
-      this.winner = "";
+      this.startLoad();
     },
     gameFinished(player) {
       this.showLoadingDialog = false;
@@ -213,7 +216,7 @@ export default {
     },
     gameIsReset() {
       this.$socket.client.emit("startGame");
-      this.startLoadingGame();
+      this.startLoad();
     },
   },
   mounted() {
