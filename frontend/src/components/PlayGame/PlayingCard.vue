@@ -15,7 +15,7 @@
       </p>
     </v-sheet>
     <v-row justify="center" class="flex-column white-bg mx-0">
-      <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
+      <p class="text-caption text-center text-wrap ma-0 pa-2">
         {{ card.timeType }}
       </p>
       <v-img
@@ -49,7 +49,7 @@
           class="d-flex align-center justify-center"
           elevation="3"
         >
-          <p class="desc text-center text-wrap ma-0 pa-2 onyx--text">
+          <p class="desc text-center text-wrap ma-0 pa-2">
             {{ card.desc | truncate }}
           </p>
         </v-sheet>

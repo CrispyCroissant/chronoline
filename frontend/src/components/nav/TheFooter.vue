@@ -1,5 +1,5 @@
 <template>
-  <v-footer color="secondary" class="d-flex flex-column pa-0">
+  <v-footer color="cyan darken-1" class="d-flex flex-column pa-0">
     <v-row justify="center" class="ma-0">
       <p class="text-overline white--text mb-0 pt-3">Game made by</p>
     </v-row>
@@ -22,9 +22,6 @@ export default {};
 </script>
 
 <style scoped>
-.container {
-  background: #e94f37;
-}
 :link {
   text-decoration: none;
   color: #000;

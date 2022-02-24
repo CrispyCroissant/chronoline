@@ -2,10 +2,10 @@
   <v-sheet
     v-if="render"
     class="px-10 py-16"
-    color="onyx"
+    color="#064969"
     elevation="4"
     rounded="xl"
-    width="98%"
+    width="95%"
   >
     <v-row>
       <drop-list :items="cards" @insert="onDrop" mode="cut" class="row">

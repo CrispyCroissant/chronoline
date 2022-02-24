@@ -7,6 +7,7 @@
     v-if="render"
     :width="sheetWidth"
     ref="cardSheet"
+    color="grey lighten-2"
   >
     <v-row justify="center" ref="titleRow">
       <v-col cols="12" class="d-flex justify-end pa-0 mt-2">
@@ -23,7 +24,7 @@
           <v-icon v-if="minimized" color="accent">mdi-chevron-up</v-icon>
         </v-btn>
       </v-col>
-      <h2 class="text-h4 mb-10 font-weight-bold onyx--text">
+      <h2 class="text-h4 mb-10 font-weight-bold">
         {{ title }}
         <v-divider></v-divider>
       </h2>
