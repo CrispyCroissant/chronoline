@@ -8,13 +8,7 @@
     width="98%"
   >
     <v-row>
-      <drop-list
-        :items="cards"
-        @insert="onDrop"
-        mode="cut"
-        class="row"
-        :drag-image-opacity="0"
-      >
+      <drop-list :items="cards" @insert="onDrop" mode="cut" class="row">
         <template v-slot:item="{ item, index }">
           <v-col cols="auto" :key="item.title">
             <PlayingCard
@@ -29,7 +23,7 @@
         </template>
         <template v-slot:feedback="{ data }">
           <v-col cols="auto" :key="data.title">
-            <PlayingCard :card="data" style="visibility: hidden;" />
+            <PlayingCard :card="data" style="visibility: hidden" />
           </v-col>
         </template>
       </drop-list>
