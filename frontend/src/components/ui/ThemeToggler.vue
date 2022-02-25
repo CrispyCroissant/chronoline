@@ -1,5 +1,11 @@
 <template>
-  <v-btn class="button" ref="btn" icon @click.native="toggleTheme">
+  <v-btn
+    class="button"
+    ref="btn"
+    icon
+    @click.native="toggleTheme"
+    aria-label="Light/Dark theme toggle button"
+  >
     <v-icon x-large :color="color">{{ icon }}</v-icon>
   </v-btn>
 </template>
