@@ -1,6 +1,10 @@
 <template>
-  <v-app>
+  <v-app
+    id="main"
+    :style="{ background: $vuetify.theme.themes[theme].background }"
+  >
     <v-main>
+      <ThemeToggler />
       <v-scale-transition mode="out-in">
         <router-view />
       </v-scale-transition>
@@ -11,10 +15,16 @@
 
 <script>
 import TheFooter from "./components/nav/TheFooter.vue";
+import ThemeToggler from "./components/ui/ThemeToggler.vue";
 
 export default {
   name: "App",
-  components: { TheFooter },
+  components: { TheFooter, ThemeToggler },
+  computed: {
+    theme() {
+      return this.$vuetify.theme.dark ? "dark" : "light";
+    },
+  },
 };
 </script>
 
@@ -23,9 +33,5 @@ html,
 body {
   margin: 0;
   padding: 0;
-}
-
-#app {
-  background: #082032;
 }
 </style>

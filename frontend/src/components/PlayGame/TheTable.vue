@@ -2,7 +2,7 @@
   <v-sheet
     v-if="render"
     class="px-10 py-16"
-    color="#064969"
+    color="table"
     elevation="4"
     rounded="xl"
     width="95%"

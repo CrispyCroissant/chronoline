@@ -7,7 +7,7 @@
     v-if="render"
     :width="sheetWidth"
     ref="cardSheet"
-    color="grey lighten-2"
+    color="sheet"
   >
     <v-row justify="center" ref="titleRow">
       <v-col cols="12" class="d-flex justify-end pa-0 mt-2">
