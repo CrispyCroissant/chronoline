@@ -20,7 +20,9 @@
           @click="changePlayer(player.nickname)"
         >
           {{
-            player.nickname === $store.state.nickname ? "You" : player.nickname
+            player.nickname === $store.state.nickname
+              ? `You (${getPlayerCardAmount(player)})`
+              : `${player.nickname} (${getPlayerCardAmount(player)})`
           }}
         </v-btn>
       </v-btn-toggle>
@@ -41,6 +43,13 @@ export default {
         return "info";
       }
       return "secondary";
+    },
+    getPlayerCardAmount(player) {
+      const thePlayer = this.players.find((element) => {
+        return element.nickname === player.nickname;
+      });
+
+      return thePlayer.cards.length;
     },
   },
   computed: {

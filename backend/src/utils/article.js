@@ -18,7 +18,7 @@ const propCodes = [
 
 async function getCards(amount) {
   return new Promise((resolve) => {
-    const maxWorkers = amount * 3 > 50 ? 50 : amount * 3;
+    const maxWorkers = 60;
     let articles = [];
     let workers = [];
 
@@ -27,8 +27,6 @@ async function getCards(amount) {
       workers.push(worker);
 
       worker.on("message", async (article) => {
-        worker.terminate();
-
         articles.push(article);
 
         if (articles.length === amount) {
@@ -92,9 +90,14 @@ async function getArticleDates(articles) {
             continue;
           }
 
-          dateFound = true;
-          article.date = parseUTC(claim.mainsnak.datavalue.value.time);
+          try {
+            article.date = parseUTC(claim.mainsnak.datavalue.value.time);
+          } catch (error) {
+            continue;
+          }
+
           article.timeType = propCodes[i].desc;
+          dateFound = true;
 
           // Nested loop breaks
           z = Object.keys(entity.claims).length;
@@ -122,7 +125,15 @@ function parseUTC(date) {
   const [Y, M, D, H, m, s] = date.match(/\d+/g);
   const sign = /^-/.test(date) ? -1 : 1;
 
-  return new Date(Date.UTC(sign * Y, M - 1, D, H, m, s));
+  const dateInstance = new Date(Date.UTC(sign * Y, M - 1, D, H, m, s));
+
+  const invalidDate = dateInstance instanceof Date && isNaN(dateInstance);
+
+  if (invalidDate) {
+    throw new Error("Date is invalid!");
+  }
+
+  return dateInstance;
 }
 
 module.exports = { getCards, getArticleDates, parseUTC };

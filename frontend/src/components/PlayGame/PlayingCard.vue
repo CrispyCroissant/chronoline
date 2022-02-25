@@ -7,14 +7,15 @@
     height="11.5rem"
     @click="displayYear"
     v-if="card"
+    :color="greyedOut ? 'grey' : undefined"
   >
     <v-sheet :color="titleColor" rounded="lg b-0" class="ma-0 px-3 py-2">
       <p class="no-wrap text-caption text-center white--text">
         {{ card.title }}
       </p>
     </v-sheet>
-    <v-row justify="center" class="mx-0" style="background: #fff">
-      <p class="text-caption text-center text-wrap ma-0 pa-2 onyx--text">
+    <v-row justify="center" class="flex-column white-bg mx-0">
+      <p class="text-caption text-center text-wrap ma-0 pa-2 black--text">
         {{ card.timeType }}
       </p>
       <v-img
@@ -22,7 +23,20 @@
         height="5rem"
         max-width="100%"
         position="75% 25%"
-      />
+        :gradient="imageOverlay"
+        class="white-bg"
+      >
+        <template #placeholder>
+          <v-row
+            class="ma-0"
+            justify="center"
+            align="center"
+            style="height: 100%"
+          >
+            <v-progress-circular color="accent" indeterminate />
+          </v-row>
+        </template>
+      </v-img>
     </v-row>
     <v-row justify="center" class="mx-0">
       <v-expand-transition>
@@ -35,7 +49,7 @@
           class="d-flex align-center justify-center"
           elevation="3"
         >
-          <p class="desc text-center text-wrap ma-0 pa-2 onyx--text">
+          <p class="desc text-center text-wrap ma-0 pa-2 black--text">
             {{ card.desc | truncate }}
           </p>
         </v-sheet>
@@ -60,7 +74,7 @@
 <script>
 export default {
   name: "PlayingCard",
-  props: ["card", "onTable"],
+  props: ["card", "onTable", "greyedOut"],
   data() {
     return {
       showYear: true,
@@ -76,16 +90,19 @@ export default {
   },
   computed: {
     yearColor() {
-      if (this.card.correct === false) {
-        return "error";
-      }
+      if (this.card.correct === false) return "error";
       return "success";
     },
     titleColor() {
-      if (this.onTable) {
-        return "secondary";
-      }
+      if (this.greyedOut) return "grey";
+      if (this.onTable) return "secondary";
       return "primary";
+    },
+    imageOverlay() {
+      if (this.greyedOut) {
+        return "rgba(232, 232, 232, 0.5), rgba(232, 232, 232, 0.5)";
+      }
+      return undefined;
     },
   },
   filters: {
@@ -111,5 +128,11 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.white-bg {
+  background: #fff;
+}
+.hide {
+  visibility: hidden !important;
 }
 </style>

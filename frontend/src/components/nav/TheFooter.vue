@@ -1,17 +1,21 @@
 <template>
   <v-footer color="secondary" class="d-flex flex-column pa-0">
     <v-row justify="center" class="ma-0">
-      <p class="text-overline white--text mb-0 pt-3">Game made by</p>
+      <p class="text-overline mb-0 pt-3 white--text">Game made by</p>
     </v-row>
-    <v-row justify="center" align="center" class="ma-0 pb-2">
-      <v-btn icon href="https://github.com/CrispyCroissant/">
-        <v-icon color="black">mdi-github</v-icon>
+    <v-row justify="center" align="center" class="ma-0 mr-3 pb-2">
+      <v-btn
+        icon
+        href="https://github.com/CrispyCroissant/"
+        aria-label="Button to the developer's GitHub page"
+      >
+        <v-icon color="white">mdi-github</v-icon>
       </v-btn>
       <a
         href="https://github.com/CrispyCroissant/"
         class="text-overline ma-0 pa-0"
       >
-        CrispyCroissant
+        <p class="ma-0 pa-0 text-overline white--text">CrispyCroissant</p>
       </a>
     </v-row>
   </v-footer>
@@ -22,9 +26,6 @@ export default {};
 </script>
 
 <style scoped>
-.container {
-  background: #e94f37;
-}
 :link {
   text-decoration: none;
   color: #000;

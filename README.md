@@ -6,7 +6,7 @@ A multiplayer game of chronological events. Inspired by the board game [Timeline
 
 ### Dependencies
 
-- Node
+- [Node v.16 or higher](https://nodejs.org/en/)
 
 ### Installing
 
@@ -14,25 +14,69 @@ A multiplayer game of chronological events. Inspired by the board game [Timeline
 
 - Install the npm packages in both folders.
 
-- Set the necessary environment variables.
+- Set the environment variables listed below.
 
-A table with environment variables will be provided in the future.
+#### Frontend environment variables
 
-### Building
+| **Key**               | **Description**              |
+| --------------------- | ---------------------------- |
+| `VUE_APP_URL`         | The URL used by the frontend |
+| `VUE_APP_BACKEND_URL` | The URL used by the backend  |
 
-To be provided...
+#### Backend environment variables
 
-## Help
+| **Key**        | **Description**                                         |
+| -------------- | ------------------------------------------------------- |
+| `NODE_ENV`     | Either _production_ or _dev_                            |
+| `PORT`         | the port the server listens to for connections          |
+| `FRONTEND_URL` | the URL used by the frontend                            |
+| `DEBUG`        | used to enable debug printing (set to _backend:server_) |
 
-To be provided...
+### Usage
+
+The game is separated into a backend and frontend. There's two different set of commands for them.
+
+- **Frontend**
+
+  - Starting the development server
+
+    `npm run serve`
+
+  - Building the project files for production
+
+    `npm run build`
+
+  - Running unit tests
+
+    `npm run test:unit`
+
+  - Running the linter
+
+    `npm run lint`
+
+- **Backend**
+
+  - Starting the development server
+
+    `npm run dev`
+
+  - Running unit tests
+
+    `npm run test`
+
+  - _Starting the production server_
+
+    `npm run start`
 
 ## Authors
 
-[@CrispyCroissant](https://twitter.com/crispycroissant)
+[@CrispyCroissant](https://github.com/crispycroissant)
 
 ## Version History
 
-No releases yet.
+- **v0.1.0**
+  - Initial release
+  - [Full changelog](https://github.com/CrispyCroissant/chronoline/milestone/1?closed=1)
 
 ## License
 

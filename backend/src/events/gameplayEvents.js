@@ -10,19 +10,30 @@ function resetGame(socket) {
 }
 
 async function startGame(io, socket) {
-  const room = socket.data.room;
+  let room = socket.data.room;
 
   // Start loading animation for all players
   io.to(room.id).emit("startLoadingGame");
 
+  const playerAmount = room.players.length;
+  if (playerAmount <= 5) {
+    await room.fillDeck(playerAmount * 8);
+  } else {
+    await room.fillDeck(50);
+  }
+
   // Fill the deck
-  await room.fillDeck(50);
 
   // Give each player 5 unique cards.
   room.handOutCards(5);
 
   // Place random card from deck on table and choose player turn.
-  room.initTable();
+  try {
+    room.initTable();
+  } catch (error) {
+    room = null;
+    return;
+  }
 
   io.to(room.id).emit("initGame", room);
   debug("Room initialized");
@@ -59,7 +70,7 @@ async function playCard(io, socket, data) {
 
   // Fetch more cards
   if (room.deck.length === 3) {
-    await room.fillDeck(15);
+    await room.fillDeck(10);
     debug(`Room '${room.id}' refilled its deck`);
   }
 }
