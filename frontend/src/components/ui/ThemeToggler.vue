@@ -25,4 +25,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.button {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+</style>
