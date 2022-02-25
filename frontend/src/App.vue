@@ -26,6 +26,6 @@ body {
 }
 
 #app {
-  background: #f6f7eb;
+  background: #082032;
 }
 </style>

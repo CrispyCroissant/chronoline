@@ -1,21 +1,45 @@
 <template>
-  <v-sheet class="pa-10 pt-3" width="100%" elevation="5" v-if="render">
+  <v-sheet
+    class="pa-10 pt-3"
+    max-width="100%"
+    rounded="lg"
+    elevation="5"
+    v-if="render"
+    :width="sheetWidth"
+    ref="cardSheet"
+    color="grey lighten-2"
+  >
     <v-row justify="center" ref="titleRow">
-      <v-col cols="12" class="d-flex justify-end pa-0">
-        <v-btn icon small ref="sizeBtn" @click.native="minimized = !minimized">
+      <v-col cols="12" class="d-flex justify-end pa-0 mt-2">
+        <v-btn
+          icon
+          small
+          ref="sizeBtn"
+          @click.native="
+            setSheetWidth();
+            minimized = !minimized;
+          "
+        >
           <v-icon v-if="!minimized" color="accent">mdi-chevron-down</v-icon>
           <v-icon v-if="minimized" color="accent">mdi-chevron-up</v-icon>
         </v-btn>
       </v-col>
-      <h2 class="text-h4 mb-5 font-weight-bold onyx--text">{{ title }}</h2>
+      <h2 class="text-h4 mb-10 font-weight-bold">
+        {{ title }}
+        <v-divider></v-divider>
+      </h2>
     </v-row>
     <v-expand-transition>
       <div v-show="!minimized">
-        <v-row justify="space-around" align="center" ref="sheetContent">
-          <v-col cols="1">
-            <ThePlayersMenu @changePlayer="changePlayer" />
+        <v-row
+          justify="space-around"
+          align="center"
+          ref="sheetContent"
+          no-gutters
+        >
+          <v-col cols="auto">
+            <ThePlayersMenu class="mr-8" @changePlayer="changePlayer" />
           </v-col>
-          <v-spacer></v-spacer>
           <drag
             v-for="card in cards"
             :key="card.title"
@@ -24,11 +48,16 @@
             :disabled="!dragAllowed || !myTurn"
             go-back
             @cut="onCut"
-            class="col col-2"
+            class="col auto d-flex justify-center"
+            @dragstart="hide($event)"
+            @dragend="show($event)"
           >
-            <v-col cols="2">
-              <PlayerCard :card="card" class="mx-2" ref="sheetCards" />
-            </v-col>
+            <PlayerCard
+              :card="card"
+              :greyedOut="!myTurn"
+              class="mx-3"
+              ref="sheetCards"
+            />
           </drag>
         </v-row>
       </div>
@@ -50,8 +79,8 @@ export default {
       minimized: false,
       cards: [],
       title: "Your cards",
-      draggedCard: {},
       dragAllowed: true,
+      sheetWidth: null,
     };
   },
   computed: {
@@ -81,6 +110,18 @@ export default {
       });
       this.cards.splice(i, 1);
     },
+    setSheetWidth() {
+      this.sheetWidth = this.$refs.cardSheet.$el.clientWidth;
+    },
+    hide(event) {
+      // This timeout ensures the ghost image can use the card before it's hidden.
+      setTimeout(() => {
+        event.source.$el.children[0].classList.add("hide");
+      }, 1);
+    },
+    show(event) {
+      event.source.$el.children[0].classList.remove("hide");
+    },
   },
   sockets: {
     initGame() {
@@ -94,11 +135,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.hide {
-  visibility: hidden;
-}
-.show {
-  visibility: visible;
-}
-</style>
+<style scoped></style>

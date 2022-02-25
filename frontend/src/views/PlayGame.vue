@@ -5,7 +5,6 @@
       <v-row justify="center">
         <ThePlayerTurnTitle />
       </v-row>
-      <TheScoreboard />
     </v-row>
     <v-row justify="center" align="center">
       <TheTable />
@@ -17,15 +16,13 @@
 </template>
 
 <script>
-import TheDialog from "../components/PlayGame/TheDialog.vue";
+import TheDialog from "../components/PlayGame/dialog/TheDialog.vue";
 import ThePlayerCardSheet from "../components/PlayGame/ThePlayerCardSheet.vue";
 import ThePlayerTurnTitle from "../components/PlayGame/ThePlayerTurnTitle.vue";
-import TheScoreboard from "../components/PlayGame/TheScoreboard.vue";
 import TheTable from "../components/PlayGame/TheTable.vue";
 
 export default {
   components: {
-    TheScoreboard,
     ThePlayerCardSheet,
     TheDialog,
     TheTable,
