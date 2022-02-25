@@ -4,7 +4,11 @@
       <p class="text-overline mb-0 pt-3 white--text">Game made by</p>
     </v-row>
     <v-row justify="center" align="center" class="ma-0 mr-3 pb-2">
-      <v-btn icon href="https://github.com/CrispyCroissant/">
+      <v-btn
+        icon
+        href="https://github.com/CrispyCroissant/"
+        aria-label="Button to the developer's GitHub page"
+      >
         <v-icon color="white">mdi-github</v-icon>
       </v-btn>
       <a
