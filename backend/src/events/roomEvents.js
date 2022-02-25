@@ -86,6 +86,33 @@ function userDisconnect(io, socket) {
     return room.id === roomId;
   });
 
+  /*
+   * This stops a crash when userDisconnect is called
+   * before createRoom is finished.
+   *
+   * The performance of this algorithm is bad, but this is
+   * a very rare and specific case.
+   */
+  if (i === -1) {
+    const thePlayersRooms = rooms.filter((room) => {
+      return room.players.find((aPlayer) => {
+        return aPlayer.nickname === nickname;
+      });
+    });
+
+    thePlayersRooms.forEach((room) => {
+      const index = rooms.findIndex((aRoom) => {
+        return aRoom.id === room.id;
+      });
+      rooms.splice(index, 1);
+      debug(`Destroyed zombie room '${room.id}'...`);
+    });
+
+    debug(`Destroyed all of '${nickname}'s' rooms, stopping a crash.`);
+    socket.data = {};
+    return;
+  }
+
   if (nickname) {
     // Remove player from local rooms storage.
     const playerIndex = rooms[i].players.findIndex((player) => {
