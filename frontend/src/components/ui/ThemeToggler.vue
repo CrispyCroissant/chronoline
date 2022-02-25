@@ -1,5 +1,5 @@
 <template>
-  <v-btn ref="btn" icon @click.native="toggleTheme">
+  <v-btn class="button" ref="btn" icon @click.native="toggleTheme">
     <v-icon x-large :color="color">{{ icon }}</v-icon>
   </v-btn>
 </template>
@@ -9,12 +9,12 @@ export default {
   name: "ThemeToggler",
   computed: {
     color() {
-      if (this.$vuetify.theme.dark) return "yellow";
-      return "blue";
+      if (this.$vuetify.theme.dark) return "yellow darken-1";
+      return "secondary";
     },
     icon() {
-      if (this.$vuetify.theme.dark) return "mdi-weather-sunny";
-      return "mdi-moon-waning-crescent";
+      if (this.$vuetify.theme.dark) return "mdi-white-balance-sunny";
+      return "mdi-weather-night";
     },
   },
   methods: {

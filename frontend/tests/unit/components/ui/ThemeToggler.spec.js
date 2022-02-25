@@ -32,20 +32,20 @@ describe("The theme toggler", () => {
   });
 
   it("is yellow if dark mode is enabled", () => {
-    expect(wrapper.vm.color).toBe("yellow");
+    expect(wrapper.vm.color).toBe("yellow darken-1");
   });
 
-  it("is blue if light mode is enabled", () => {
+  it("is secondary color if light mode is enabled", () => {
     wrapper.vm.$vuetify.theme.dark = false;
-    expect(wrapper.vm.color).toBe("blue");
+    expect(wrapper.vm.color).toBe("secondary");
   });
 
   it("changes the icon to a sun if dark mode is enabled", () => {
-    expect(wrapper.vm.icon).toBe("mdi-weather-sunny");
+    expect(wrapper.vm.icon).toBe("mdi-white-balance-sunny");
   });
 
   it("changes the icon to a moon if light mode is enabled", () => {
     wrapper.vm.$vuetify.theme.dark = false;
-    expect(wrapper.vm.icon).toBe("mdi-moon-waning-crescent");
+    expect(wrapper.vm.icon).toBe("mdi-weather-night");
   });
 });
