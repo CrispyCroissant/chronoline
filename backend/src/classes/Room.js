@@ -45,7 +45,11 @@ class Room {
     const randCard = this.deck[index];
 
     this.table.push(randCard);
-    this.currentTurn = this.#getRandomPlayerNickname();
+    try {
+      this.currentTurn = this.#getRandomPlayerNickname();
+    } catch (error) {
+      throw new Error("Player has left the room");
+    }
 
     // Remove card from deck
     this.deck.splice(index, 1);

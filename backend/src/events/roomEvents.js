@@ -80,7 +80,7 @@ function userDisconnect(io, socket) {
   if (!player) return;
   if (!roomId) return;
 
-  const nickname = player.nickname;
+  const nickname = player.nickname.slice();
 
   const i = rooms.findIndex((room) => {
     return room.id === roomId;
