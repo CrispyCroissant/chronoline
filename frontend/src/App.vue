@@ -25,6 +25,22 @@ export default {
       return this.$vuetify.theme.dark ? "dark" : "light";
     },
   },
+  metaInfo: {
+    title: "Chronoline",
+    htmlAttrs: {
+      lang: "en-US",
+    },
+    meta: [
+      { charset: "utf-8" },
+      {
+        name: "description",
+        content:
+          "A multiplayer game where you have to know your timeline of historical events and the births/deaths of famous people.",
+      },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { "http-equiv": "X-UA-Compatible", content: "IE=edge" },
+    ],
+  },
 };
 </script>
 

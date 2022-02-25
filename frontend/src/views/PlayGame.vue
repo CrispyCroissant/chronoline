@@ -53,6 +53,10 @@ export default {
       });
     },
   },
+  metaInfo() {
+    const roomId = this.$route.params.id;
+    return { titleTemplate: `%s | Room '${roomId}'` };
+  },
 };
 </script>
 

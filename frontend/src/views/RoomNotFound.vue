@@ -35,6 +35,9 @@ export default {
       this.$router.push({ name: "Home" });
     },
   },
+  metaInfo: {
+    titleTemplate: "%s | Not found",
+  },
 };
 </script>
 
