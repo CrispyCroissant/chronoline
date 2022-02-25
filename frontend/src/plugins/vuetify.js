@@ -21,7 +21,7 @@ export default new Vuetify({
         secondary: "#334756",
         accent: "#2C394B",
         table: "#064969",
-        sheet: colors.grey.lighten2,
+        sheet: colors.grey.darken3,
         onyx: "#fff",
         background: "#082032",
       },
