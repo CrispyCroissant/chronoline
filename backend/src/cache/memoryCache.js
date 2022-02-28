@@ -1,9 +1,11 @@
-module.exports = {
-  cache: {},
-  get: (key) => {
-    return this.cache[key];
-  },
-  set: (key, value) => {
-    this.cache[key] = value;
-  },
-};
+module.exports = (function () {
+  let cache = {};
+  return {
+    get: (key) => {
+      return cache[key];
+    },
+    set: (key, value) => {
+      cache[key] = value;
+    },
+  };
+})();
