@@ -10,7 +10,7 @@ var app = require("../app");
 var debug = require("debug")("backend:server");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
-const { storeCardsInCache } = require("../cache/memoryCache");
+const { storeCardsInCache } = require("../utils/cardUtils");
 
 /*
  * Import the event handler
