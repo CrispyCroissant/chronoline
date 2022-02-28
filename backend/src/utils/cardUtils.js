@@ -11,4 +11,19 @@ async function storeCardsInCache() {
   cache.set("cards", JSON.parse(data));
 }
 
-module.exports = { storeCardsInCache };
+function getCards(amount) {
+  const allCards = cache.get("cards");
+  let requestedCards = [];
+
+  for (let i = 0; i < amount; i++) {
+    const card = allCards[Math.floor(Math.random() * allCards.length)];
+
+    if (requestedCards.includes(card)) {
+      i--;
+      continue;
+    }
+
+    requestedCards.push(card);
+  }
+  return requestedCards;
+}
