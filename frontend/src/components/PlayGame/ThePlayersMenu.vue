@@ -17,7 +17,8 @@
           height="2rem"
           v-for="player in players"
           :key="player.nickname"
-          @click="changePlayer(player.nickname)"
+          @click.native="changePlayer(player.nickname)"
+          :ref="player.nickname"
         >
           {{
             player.nickname === $store.state.nickname
@@ -70,7 +71,7 @@ export default {
   },
   sockets: {
     nextTurn({ currentTurn }) {
-      this.changePlayer(currentTurn);
+      this.$refs[currentTurn][0].$el.click();
     },
   },
 };
