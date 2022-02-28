@@ -68,6 +68,11 @@ export default {
       return players;
     },
   },
+  sockets: {
+    nextTurn({ currentTurn }) {
+      this.changePlayer(currentTurn);
+    },
+  },
 };
 </script>
 
