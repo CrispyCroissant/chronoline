@@ -10,6 +10,7 @@ var app = require("../app");
 var debug = require("debug")("backend:server");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const { storeCardsInCache } = require("../utils/cardUtils");
 
 /*
  * Import the event handler
@@ -22,6 +23,11 @@ const eventHandler = require("../events/handler");
 
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
+
+/*
+ * Read card data and store in cache.
+ */
+storeCardsInCache();
 
 /*
  * Create HTTP and WebSocket server.

@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Worker } = require("worker_threads");
+const { parentPort } = require("worker_threads");
 
 const propCodes = [
   { code: "P569", desc: "born" },
@@ -15,30 +15,6 @@ const propCodes = [
   { code: "P2669", desc: "discontinued" },
   { code: "P8556", desc: "extinct" },
 ];
-
-async function getCards(amount) {
-  return new Promise((resolve) => {
-    const maxWorkers = 60;
-    let articles = [];
-    let workers = [];
-
-    for (let i = 0; i < maxWorkers; i++) {
-      const worker = new Worker("./src/utils/worker.js");
-      workers.push(worker);
-
-      worker.on("message", async (article) => {
-        articles.push(article);
-
-        if (articles.length === amount) {
-          workers.forEach((worker) => {
-            worker.terminate();
-          });
-          resolve(articles);
-        }
-      });
-    }
-  });
-}
 
 async function getArticleDates(articles) {
   if (!articles) throw new Error("An array of articles was not given!");
@@ -136,4 +112,31 @@ function parseUTC(date) {
   return dateInstance;
 }
 
-module.exports = { getCards, getArticleDates, parseUTC };
+function removeYear(string) {
+  const parantStart = string.indexOf("(");
+  const parantEnd = string.indexOf(")");
+  const hasParenthesis = parantStart != -1 && parantEnd != -1;
+
+  if (hasParenthesis) {
+    const hasNumber = /\d/.test(string);
+
+    if (hasNumber) {
+      return string.replace(string.slice(parantStart, parantEnd + 1), "");
+    }
+  }
+
+  return string;
+}
+
+async function checkArticlesAndSend(articles) {
+  articles = await getArticleDates(articles);
+
+  if (articles.length !== 0) parentPort.postMessage(articles);
+}
+
+module.exports = {
+  getArticleDates,
+  parseUTC,
+  removeYear,
+  checkArticlesAndSend,
+};
