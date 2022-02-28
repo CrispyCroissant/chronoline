@@ -15,6 +15,7 @@ export default new Vuetify({
         sheet: "#F6F2F4",
         onyx: "#353839",
         background: "#fff",
+        alternative: colors.purple,
       },
       dark: {
         primary: "#dc4325",
@@ -24,6 +25,7 @@ export default new Vuetify({
         sheet: colors.grey.darken3,
         onyx: "#fff",
         background: "#082032",
+        alternative: colors.purple,
       },
     },
   },
