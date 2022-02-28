@@ -56,6 +56,8 @@ class Room {
   }
 
   insertCard(card, index) {
+    this.#setCardsRecentFalse();
+    card.mostRecent = true;
     this.table.splice(index, 0, card);
   }
 
@@ -163,6 +165,12 @@ class Room {
   #resetPlayers() {
     this.players.forEach((player) => {
       player.reset();
+    });
+  }
+
+  #setCardsRecentFalse() {
+    this.table.forEach((card) => {
+      card.mostRecent = false;
     });
   }
 }

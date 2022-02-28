@@ -275,4 +275,28 @@ describe("The Room class", () => {
       expect(room.deck).not.toContain(host.cards[0]);
     });
   });
+
+  describe("insertCard()", () => {
+    beforeEach(() => {
+      room.table = [
+        { date: new Date("Jan 1 2000") },
+        { date: new Date("Jan 1 2002") },
+        { date: new Date("Jan 1 2004") },
+      ];
+    });
+
+    it("sets all cards' mostRecent prop to false except for one", () => {
+      const mockCard = { date: new Date("Jan 1 2006") };
+
+      room.insertCard(mockCard);
+
+      room.table.forEach((card) => {
+        if (card === mockCard) {
+          expect(card.mostRecent).toBe(true);
+        } else {
+          expect(card.mostRecent).toBe(false);
+        }
+      });
+    });
+  });
 });

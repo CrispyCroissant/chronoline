@@ -47,10 +47,6 @@ function playCard(io, socket, data) {
 
   player.removeCard(card);
 
-  // Update cards on table and player's new sheet
-  io.to(room.id).emit("tableUpdate", { table: room.table });
-  io.to(room.id).emit("playerUpdate", { players: room.players });
-
   room.checkPlayedCard(card, index, player);
 
   // Update player cards in case of any changes

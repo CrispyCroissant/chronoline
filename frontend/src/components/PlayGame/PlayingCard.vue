@@ -95,6 +95,7 @@ export default {
     },
     titleColor() {
       if (this.greyedOut) return "grey";
+      if (this.card.mostRecent) return "alternative";
       if (this.onTable) return "secondary";
       return "primary";
     },
