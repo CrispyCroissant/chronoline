@@ -9,7 +9,7 @@ function resetGame(socket) {
   debug(`Game '${room.id} has been reset'`);
 }
 
-async function startGame(io, socket) {
+function startGame(io, socket) {
   let room = socket.data.room;
 
   // Start loading animation for all players
@@ -17,9 +17,9 @@ async function startGame(io, socket) {
 
   const playerAmount = room.players.length;
   if (playerAmount <= 5) {
-    await room.fillDeck(playerAmount * 8);
+    room.fillDeck(playerAmount * 8);
   } else {
-    await room.fillDeck(50);
+    room.fillDeck(50);
   }
 
   // Fill the deck
@@ -39,7 +39,7 @@ async function startGame(io, socket) {
   debug("Room initialized");
 }
 
-async function playCard(io, socket, data) {
+function playCard(io, socket, data) {
   const { card, index } = data;
   const { room, player } = socket.data;
 
@@ -70,7 +70,7 @@ async function playCard(io, socket, data) {
 
   // Fetch more cards
   if (room.deck.length === 3) {
-    await room.fillDeck(10);
+    room.fillDeck(10);
     debug(`Room '${room.id}' refilled its deck`);
   }
 }
