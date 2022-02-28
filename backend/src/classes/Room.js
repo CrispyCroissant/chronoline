@@ -1,4 +1,4 @@
-const { getCards } = require("../utils/article");
+const { getCards } = require("../utils/cardUtils");
 
 class Room {
   constructor(id, host) {
@@ -20,11 +20,11 @@ class Room {
     this.players.push(player);
   }
 
-  async fillDeck(amount) {
+  fillDeck(amount) {
     if (amount >= 50) {
-      this.deck = await getCards(50);
+      this.deck = getCards(50);
     } else {
-      this.deck = await getCards(amount);
+      this.deck = getCards(amount);
     }
   }
 

@@ -1,8 +1,8 @@
 const Room = require("../../classes/Room");
 const Player = require("../../classes/Player");
-const article = require("../../utils/article");
+const article = require("../../utils/cardUtils");
 
-jest.mock("../../utils/article");
+jest.mock("../../utils/cardUtils");
 
 describe("The Room class", () => {
   const roomID = "123";
