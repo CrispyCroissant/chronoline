@@ -1,10 +1,9 @@
 const path = require("path");
 const fs = require("fs");
-const fsPromises = fs.promises;
 const cache = require("../cache/memoryCache");
 
-async function storeCardsInCache() {
-  const data = await fsPromises.readFile(
+function storeCardsInCache() {
+  const data = fs.readFileSync(
     path.join(__dirname, "..", "..", "data", "cards.json")
   );
 
@@ -27,3 +26,5 @@ function getCards(amount) {
   }
   return requestedCards;
 }
+
+module.exports = { storeCardsInCache, getCards };
