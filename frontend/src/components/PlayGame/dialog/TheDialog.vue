@@ -39,8 +39,10 @@ export default {
   },
   methods: {
     showLoading() {
-      this.showLoadingDialog = true;
-      this.isHost = true;
+      if (!this.winner) {
+        this.showLoadingDialog = true;
+        this.isHost = true;
+      }
     },
     hideLoading() {
       this.showLoadingDialog = false;
