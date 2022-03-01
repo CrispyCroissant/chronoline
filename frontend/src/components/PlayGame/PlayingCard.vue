@@ -15,9 +15,20 @@
       </p>
     </v-sheet>
     <v-row justify="center" class="flex-column white-bg mx-0">
-      <p class="text-caption text-center text-wrap ma-0 pa-2 black--text">
-        {{ card.timeType }}
-      </p>
+      <div class="relative">
+        <v-btn
+          v-show="onTable"
+          small
+          icon
+          class="wiki"
+          @click="goToWiki(card.url)"
+        >
+          <v-icon small color="black">mdi-wikipedia</v-icon>
+        </v-btn>
+        <p class="text-caption text-center text-wrap ma-0 pa-2 black--text">
+          {{ card.timeType }}
+        </p>
+      </div>
       <v-img
         :src="card.thumbnail"
         height="5rem"
@@ -79,13 +90,19 @@ export default {
     return {
       showYear: true,
       showDesc: true,
+      canShowYear: true,
     };
   },
   methods: {
     displayYear() {
-      if (this.onTable) {
+      if (this.onTable && this.canShowYear) {
         this.showYear = !this.showYear;
       }
+      this.canShowYear = true;
+    },
+    goToWiki(url) {
+      this.canShowYear = false;
+      window.open(url);
     },
   },
   computed: {
@@ -135,5 +152,13 @@ export default {
 }
 .hide {
   visibility: hidden !important;
+}
+.relative {
+  position: relative;
+}
+.wiki {
+  position: absolute;
+  top: 3px;
+  left: 3px;
 }
 </style>
