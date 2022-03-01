@@ -83,9 +83,13 @@ async function getArticleDates(articles) {
 
       // Remove article if there's no appropriate date.
       if (!dateFound) {
-        articles.splice(x, 1);
+        delete articles[x];
       }
     }
+
+    articles = articles.filter((article) => {
+      return article != undefined;
+    });
 
     return articles;
   } catch (error) {
