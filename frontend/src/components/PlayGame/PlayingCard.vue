@@ -90,15 +90,18 @@ export default {
     return {
       showYear: true,
       showDesc: true,
+      canShowYear: true,
     };
   },
   methods: {
     displayYear() {
-      if (this.onTable) {
+      if (this.onTable && this.canShowYear) {
         this.showYear = !this.showYear;
       }
+      this.canShowYear = true;
     },
     goToWiki(url) {
+      this.canShowYear = false;
       window.open(url);
     },
   },
