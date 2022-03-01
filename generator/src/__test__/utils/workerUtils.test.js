@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { getArticleDates, parseUTC } = require("../../utils/article");
+const { getArticleDates, parseUTC } = require("../../utils/workerUtils");
 
 jest.mock("axios");
 

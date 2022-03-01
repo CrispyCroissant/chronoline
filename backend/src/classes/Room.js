@@ -1,4 +1,4 @@
-const { getCards } = require("../utils/article");
+const { getCards } = require("../utils/cardUtils");
 
 class Room {
   constructor(id, host) {
@@ -7,6 +7,7 @@ class Room {
     this.deck = [];
     this.players = [host];
     this.currentTurn = "";
+    this.status = "waiting";
   }
 
   reset() {
@@ -20,11 +21,19 @@ class Room {
     this.players.push(player);
   }
 
-  async fillDeck(amount) {
+  fillDeck(amount) {
     if (amount >= 50) {
-      this.deck = await getCards(50);
+      this.deck = getCards(50);
     } else {
-      this.deck = await getCards(amount);
+      this.deck = getCards(amount);
+    }
+  }
+
+  changeStatus() {
+    if (this.status === "waiting") {
+      this.status = "playing";
+    } else {
+      this.status = "waiting";
     }
   }
 
@@ -56,6 +65,8 @@ class Room {
   }
 
   insertCard(card, index) {
+    this.#setCardsRecentFalse();
+    card.mostRecent = true;
     this.table.splice(index, 0, card);
   }
 
@@ -163,6 +174,12 @@ class Room {
   #resetPlayers() {
     this.players.forEach((player) => {
       player.reset();
+    });
+  }
+
+  #setCardsRecentFalse() {
+    this.table.forEach((card) => {
+      card.mostRecent = false;
     });
   }
 }

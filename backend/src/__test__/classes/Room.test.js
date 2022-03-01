@@ -1,8 +1,8 @@
 const Room = require("../../classes/Room");
 const Player = require("../../classes/Player");
-const article = require("../../utils/article");
+const article = require("../../utils/cardUtils");
 
-jest.mock("../../utils/article");
+jest.mock("../../utils/cardUtils");
 
 describe("The Room class", () => {
   const roomID = "123";
@@ -23,6 +23,10 @@ describe("The Room class", () => {
       expect(room.table).toEqual([]);
       expect(room.deck).toEqual([]);
       expect(room.currentTurn).toBe("");
+    });
+
+    it("adds a default room status", () => {
+      expect(room.status).toBe("waiting");
     });
   });
 
@@ -273,6 +277,43 @@ describe("The Room class", () => {
       room.checkPlayedCard(card, 1, host);
 
       expect(room.deck).not.toContain(host.cards[0]);
+    });
+  });
+
+  describe("insertCard()", () => {
+    beforeEach(() => {
+      room.table = [
+        { date: new Date("Jan 1 2000") },
+        { date: new Date("Jan 1 2002") },
+        { date: new Date("Jan 1 2004") },
+      ];
+    });
+
+    it("sets all cards' mostRecent prop to false except for one", () => {
+      const mockCard = { date: new Date("Jan 1 2006") };
+
+      room.insertCard(mockCard);
+
+      room.table.forEach((card) => {
+        if (card === mockCard) {
+          expect(card.mostRecent).toBe(true);
+        } else {
+          expect(card.mostRecent).toBe(false);
+        }
+      });
+    });
+  });
+
+  describe("changeStatus()", () => {
+    it("changes the status to 'playing' if it's currently 'waiting'", () => {
+      room.changeStatus();
+      expect(room.status).toBe("playing");
+    });
+
+    it("changes the status to 'waiting' if it's currently 'playing'", () => {
+      room.status = "playing";
+      room.changeStatus();
+      expect(room.status).toBe("waiting");
     });
   });
 });

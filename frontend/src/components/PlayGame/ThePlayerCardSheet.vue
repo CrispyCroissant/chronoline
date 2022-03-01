@@ -54,7 +54,7 @@
           >
             <PlayerCard
               :card="card"
-              :greyedOut="!myTurn"
+              :greyedOut="!myTurn || watchingOtherPlayer"
               class="mx-3"
               ref="sheetCards"
             />
@@ -81,6 +81,7 @@ export default {
       title: "Your cards",
       dragAllowed: true,
       sheetWidth: null,
+      watchingOtherPlayer: false,
     };
   },
   computed: {
@@ -96,9 +97,11 @@ export default {
       if (playerName === this.$store.state.nickname) {
         this.title = "Your cards";
         this.dragAllowed = true;
+        this.watchingOtherPlayer = false;
       } else {
         this.title = `${playerName}'s cards`;
         this.dragAllowed = false;
+        this.watchingOtherPlayer = true;
       }
     },
     getCards(name) {
