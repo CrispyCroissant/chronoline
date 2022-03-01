@@ -44,6 +44,11 @@ function joinRoom(io, socket, data) {
       return;
     }
 
+    if (room.status === "playing") {
+      socket.emit("roomBusy");
+      return;
+    }
+
     socket.join(id);
     room.addPlayer(player);
 

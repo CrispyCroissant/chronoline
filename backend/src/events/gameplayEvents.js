@@ -15,6 +15,8 @@ function startGame(io, socket) {
   // Start loading animation for all players
   io.to(room.id).emit("startLoadingGame");
 
+  room.changeStatus();
+
   const playerAmount = room.players.length;
   if (playerAmount <= 5) {
     room.fillDeck(playerAmount * 8);
@@ -59,6 +61,7 @@ function playCard(io, socket, data) {
   const winner = room.hasWinner();
   if (winner) {
     io.to(room.id).emit("gameFinished", winner);
+    room.changeStatus();
     return;
   }
 

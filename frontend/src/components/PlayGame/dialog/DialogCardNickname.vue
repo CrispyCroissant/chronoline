@@ -3,6 +3,11 @@
     <v-card-title class="text-h5 white--text primary d-flex justify-center">
       Before you play...
     </v-card-title>
+    <v-expand-transition>
+      <div v-if="roomBusy">
+        <v-alert type="warning" text>Game is already underway.</v-alert>
+      </div>
+    </v-expand-transition>
     <v-card-text
       class="mt-10 text-center d-flex flex-column align-center justify-center"
     >
@@ -33,6 +38,7 @@ export default {
     return {
       formValid: false,
       takenNames: [],
+      roomBusy: false,
     };
   },
   computed: {
@@ -52,7 +58,6 @@ export default {
         const roomId = this.$route.params.id;
 
         this.$socket.client.emit("joinRoom", { nickname, id: roomId });
-        this.$emit("roomJoined");
       }
     },
     required(value) {
@@ -75,6 +80,13 @@ export default {
   sockets: {
     nameTaken(data) {
       this.takenNames.push(data.name);
+    },
+    roomBusy() {
+      this.roomBusy = true;
+    },
+    roomConnection() {
+      this.roomBusy = false;
+      this.$emit("roomJoined");
     },
   },
 };
