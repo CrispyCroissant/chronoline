@@ -24,6 +24,10 @@ describe("The Room class", () => {
       expect(room.deck).toEqual([]);
       expect(room.currentTurn).toBe("");
     });
+
+    it("adds a default room status", () => {
+      expect(room.status).toBe("waiting");
+    });
   });
 
   describe("reset()", () => {
@@ -297,6 +301,19 @@ describe("The Room class", () => {
           expect(card.mostRecent).toBe(false);
         }
       });
+    });
+  });
+
+  describe("changeStatus()", () => {
+    it("changes the status to 'playing' if it's currently 'waiting'", () => {
+      room.changeStatus();
+      expect(room.status).toBe("playing");
+    });
+
+    it("changes the status to 'waiting' if it's currently 'playing'", () => {
+      room.status = "playing";
+      room.changeStatus();
+      expect(room.status).toBe("waiting");
     });
   });
 });

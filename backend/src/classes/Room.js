@@ -7,6 +7,7 @@ class Room {
     this.deck = [];
     this.players = [host];
     this.currentTurn = "";
+    this.status = "waiting";
   }
 
   reset() {
@@ -25,6 +26,14 @@ class Room {
       this.deck = getCards(50);
     } else {
       this.deck = getCards(amount);
+    }
+  }
+
+  changeStatus() {
+    if (this.status === "waiting") {
+      this.status = "playing";
+    } else {
+      this.status = "waiting";
     }
   }
 
