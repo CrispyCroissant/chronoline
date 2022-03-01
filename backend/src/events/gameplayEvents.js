@@ -22,14 +22,13 @@ function startGame(io, socket) {
 
   room.changeStatus();
 
+  // Fill the deck
   const playerAmount = room.players.length;
   if (playerAmount <= 5) {
     room.fillDeck(playerAmount * 8);
   } else {
     room.fillDeck(50);
   }
-
-  // Fill the deck
 
   // Give each player 5 unique cards.
   room.handOutCards(5);
