@@ -11,6 +11,11 @@ function resetGame(socket) {
 
 function startGame(io, socket) {
   let room = socket.data.room;
+  const roomHasPlayedAlready = room.currentTurn != "";
+
+  if (roomHasPlayedAlready) {
+    room.reset();
+  }
 
   // Start loading animation for all players
   io.to(room.id).emit("startLoadingGame");
