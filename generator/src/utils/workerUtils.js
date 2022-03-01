@@ -24,7 +24,10 @@ async function getArticleDates(articles) {
 
   for (let i = 0; i < articles.length; i++) {
     const wikibaseItem = articles[i].wikibaseItem;
-    if (i === 0) ids = wikibaseItem;
+    if (i === 0) {
+      ids = wikibaseItem;
+      continue;
+    }
     ids += `|${wikibaseItem}`;
   }
 
@@ -83,9 +86,13 @@ async function getArticleDates(articles) {
 
       // Remove article if there's no appropriate date.
       if (!dateFound) {
-        articles.splice(x, 1);
+        delete articles[x];
       }
     }
+
+    articles = articles.filter((article) => {
+      return article != undefined;
+    });
 
     return articles;
   } catch (error) {
