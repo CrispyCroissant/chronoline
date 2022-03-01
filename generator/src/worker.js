@@ -83,5 +83,6 @@ async function generateCard() {
 
       if (isLastArticle) await checkArticlesAndSend(articles);
     }
+    articles = [];
   }
 }
