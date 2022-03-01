@@ -1,7 +1,7 @@
 const { performance } = require("perf_hooks");
 const fs = require("fs");
 const fsPromises = fs.promises;
-const { getCards, msToMinAndSec } = require("./utils/appUtils");
+const { getCards, msToMinAndSec, verify } = require("./utils/appUtils");
 
 async function main() {
   const args = process.argv.slice(2);
@@ -27,6 +27,12 @@ async function main() {
   console.log(
     `Card generation finished (${msToMinAndSec(endTime - startTime)})`
   );
+
+  try {
+    verify(cards, cardAmount);
+  } catch (error) {
+    throw error;
+  }
 
   try {
     console.log("Writing to file...");
