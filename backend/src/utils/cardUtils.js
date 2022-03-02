@@ -10,14 +10,14 @@ function storeCardsInCache() {
   cache.set("cards", JSON.parse(data));
 }
 
-function getCards(amount) {
+function getCards(amount, table) {
   const allCards = cache.get("cards");
   let requestedCards = [];
 
   for (let i = 0; i < amount; i++) {
     const card = allCards[Math.floor(Math.random() * allCards.length)];
 
-    if (requestedCards.includes(card)) {
+    if (requestedCards.includes(card) || table.includes(card)) {
       i--;
       continue;
     }

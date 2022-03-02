@@ -85,21 +85,21 @@ describe("The Room class", () => {
       room.fillDeck(30);
 
       expect(spy).toBeCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(30);
+      expect(spy).toHaveBeenCalledWith(30, []);
     });
 
     it("adds 50 cards to the deck if given amount is 50", () => {
       room.fillDeck(50);
 
       expect(spy).toBeCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(50);
+      expect(spy).toHaveBeenCalledWith(50, []);
     });
 
     it("adds 50 cards to the deck if given amount is HIGHER than 50", () => {
       room.fillDeck(51);
 
       expect(spy).toBeCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(50);
+      expect(spy).toHaveBeenCalledWith(50, []);
     });
   });
 
