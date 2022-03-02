@@ -71,7 +71,7 @@ async function generateCard() {
         if (isLastArticle) await checkArticlesAndSend(articles);
         continue;
       }
-
+      
       // This wikibaseItem links to a Wikidata template. It's garbage.
       if (wikibaseItem === "Q22321052") {
         if (isLastArticle) await checkArticlesAndSend(articles);
