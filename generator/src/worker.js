@@ -72,6 +72,12 @@ async function generateCard() {
         continue;
       }
 
+      // This wikibaseItem links to a Wikidata template. It's garbage.
+      if (wikibaseItem === "Q22321052") {
+        if (isLastArticle) await checkArticlesAndSend(articles);
+        continue;
+      }
+
       articles.push({
         title: removeYear(article.title),
         desc: removeYear(desc),
