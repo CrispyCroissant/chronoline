@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { getArticleDates, parseUTC } = require("../../utils/workerUtils");
+const { getArticleDates, parseDate } = require("../../utils/workerUtils");
 
 jest.mock("axios");
 
@@ -100,7 +100,7 @@ describe("getArticleDates()", () => {
     const returnedArticles = await getArticleDates([articleCard]);
     const article = returnedArticles[0];
 
-    expect(article.date).toStrictEqual(parseUTC("+1990-11-26T00:00:00Z"));
+    expect(article.date).toStrictEqual(parseDate("+1990-11-26T00:00:00Z"));
     expect(article.timeType).toBe("born");
   });
 });
