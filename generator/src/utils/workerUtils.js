@@ -70,7 +70,7 @@ async function getArticleDates(articles) {
           }
 
           try {
-            article.date = parseUTC(claim.mainsnak.datavalue.value.time);
+            article.date = parseDate(claim.mainsnak.datavalue.value.time);
           } catch (error) {
             continue;
           }
@@ -100,23 +100,41 @@ async function getArticleDates(articles) {
   }
 }
 
-/*
- * Taken from https://stackoverflow.com/a/69686563
- * Big thanks!
- */
-function parseUTC(date) {
-  const [Y, M, D, H, m, s] = date.match(/\d+/g);
-  const sign = /^-/.test(date) ? -1 : 1;
+function parseDate(date) {
+  const dateString = convToECMA262(date);
 
-  const dateInstance = new Date(Date.UTC(sign * Y, M - 1, D, H, m, s));
+  const dateInstance = new Date(dateString);
 
   const invalidDate = dateInstance instanceof Date && isNaN(dateInstance);
 
-  if (invalidDate) {
-    throw new Error("Date is invalid!");
-  }
+  if (invalidDate) throw new Error("Date is invalid!");
 
   return dateInstance;
+}
+
+// Converts the Wikidata date format to the one given here
+// https://262.ecma-international.org/#sec-date-time-string-format
+function convToECMA262(date) {
+  const sign = date.charAt(0);
+  const yearIndex = date.indexOf("-", 1);
+
+  let yearString = date.substring(1, yearIndex);
+  let restOfString = date.substring(yearIndex);
+  let dateString = "";
+
+  if (yearString.length != 6) {
+    const digitsToAdd = 6 - yearString.length;
+
+    for (let i = 0; i < digitsToAdd; i++) yearString = "0" + yearString;
+
+    restOfString = restOfString.replaceAll("-00", "-01");
+
+    dateString = sign + yearString + restOfString;
+  } else {
+    dateString = date;
+  }
+
+  return dateString;
 }
 
 function removeYear(string) {
@@ -143,7 +161,7 @@ async function checkArticlesAndSend(articles) {
 
 module.exports = {
   getArticleDates,
-  parseUTC,
+  parseDate,
   removeYear,
   checkArticlesAndSend,
 };

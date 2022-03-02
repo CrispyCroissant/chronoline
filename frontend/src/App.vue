@@ -22,7 +22,15 @@ export default {
   components: { TheFooter, ThemeToggler },
   computed: {
     theme() {
-      return this.$vuetify.theme.dark ? "dark" : "light";
+      if (this.$vuetify.theme.dark) {
+        document.querySelector("html").classList.remove("light");
+        document.querySelector("html").classList.add("dark");
+        return "dark";
+      } else {
+        document.querySelector("html").classList.remove("dark");
+        document.querySelector("html").classList.add("light");
+        return "light";
+      }
     },
   },
   metaInfo: {
@@ -49,5 +57,11 @@ html,
 body {
   margin: 0;
   padding: 0;
+}
+html.dark {
+  background-color: #082032;
+}
+html.light {
+  background-color: #fff;
 }
 </style>

@@ -23,9 +23,9 @@ class Room {
 
   fillDeck(amount) {
     if (amount >= 50) {
-      this.deck = getCards(50);
+      this.deck = getCards(50, this.table);
     } else {
-      this.deck = getCards(amount);
+      this.deck = getCards(amount, this.table);
     }
   }
 
